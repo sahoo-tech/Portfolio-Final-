@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayantan Sahoo - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p>Loading Portfolio...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">SS</div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-name">SAYANTAN SAHOO</h1>
+                <div class="hero-tagline">
+                    <span class="typing-text" id="typingText"></span>
+                    <span class="cursor">|</span>
+                </div>
+                <p class="hero-summary">Curious and results-driven Computer Science Engineer passionate about AI, Data Science, and Cybersecurity</p>
+                <div class="hero-buttons">
+                    <a href="Sayantan_Sahoo(CV).pdf" download="Sayantan_Sahoo_CV.pdf" class="btn btn-primary"><i class="fas fa-download"></i> Download CV</a>
+                    <a href="#contact" class="btn btn-secondary"><i class="fas fa-envelope"></i> Contact Me</a>
+                </div>
+                <div class="hero-social">
+                    <a href="https://github.com/sahoo-tech" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/sayantan-sahoo-8482a62a0" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:ss9830872697@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
+                    <a href="tel:+918777651702" class="social-link"><i class="fas fa-phone"></i></a>
+                </div>
+                <div class="hero-location">
+                    <i class="fas fa-map-marker-alt"></i> Kolkata, India
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <p class="about-summary">Curious and results-driven Computer Science Engineer passionate about AI, Data Science, and Cybersecurity. Experienced in full-stack development and secure system design, with hands-on work in AI-driven solutions, backend services, and threat detection systems. Thrives on solving real-world problems through innovation, data, and automation with a focus on building scalable and secure applications.</p>
+                </div>
+                <div class="strengths-grid">
+                    <div class="strength-card slide-in">
+                        <div class="strength-icon"><i class="fas fa-code"></i></div>
+                        <h3>Strong Foundation</h3>
+                        <p>Strong foundation in algorithms, data structures, and backend development</p>
+                    </div>
+                    <div class="strength-card slide-in">
+                        <div class="strength-icon"><i class="fas fa-brain"></i></div>
+                        <h3>Quick Learner</h3>
+                        <p>Quick learner with a passion for exploring emerging technologies</p>
+                    </div>
+                    <div class="strength-card slide-in">
+                        <div class="strength-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Data-Driven</h3>
+                        <p>Adept at translating data insights into real-world applications</p>
+                    </div>
+                    <div class="strength-card slide-in">
+                        <div class="strength-icon"><i class="fas fa-lightbulb"></i></div>
+                        <h3>Innovation Focused</h3>
+                        <p>Focused on innovation, security, and impact-driven problem solving</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="section education-section" id="education">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2024 – Present</div>
+                        <h3>B.Tech in Computer Science and Engineering</h3>
+                        <p>University Institute of Technology, The Burdwan University</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025 – 2029</div>
+                        <h3>BS in Data Science and Applications</h3>
+                        <p>Indian Institute of Technology, Madras (Online Program)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section skills-section" id="skills">
+        <div class="container">
+            <h2 class="section-title">Skills &amp; Technologies</h2>
+            <div class="skills-container">
+                <div class="skill-category fade-in">
+                    <h3><i class="fas fa-laptop-code"></i> Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">C/C++</span>
+                        <span class="skill-tag">Node.js</span>
+                    </div>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3><i class="fas fa-globe"></i> Web Development</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">Bootstrap</span>
+                        <span class="skill-tag">Tailwind</span>
+                    </div>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3><i class="fas fa-database"></i> Databases</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">PostgreSQL</span>
+                    </div>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3><i class="fas fa-robot"></i> Data Science &amp; AI</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">NumPy</span>
+                        <span class="skill-tag">Pandas</span>
+                        <span class="skill-tag">Matplotlib</span>
+                        <span class="skill-tag">SciPy</span>
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">NLP</span>
+                        <span class="skill-tag">Voice Cloning</span>
+                    </div>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3><i class="fas fa-shield-alt"></i> Cybersecurity</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Ethical Hacking</span>
+                        <span class="skill-tag">Google Dorking</span>
+                        <span class="skill-tag">Honeypot Systems</span>
+                        <span class="skill-tag">Network Diagnostics</span>
+                    </div>
+                </div>
+                <div class="skill-category fade-in">
+                    <h3><i class="fas fa-tools"></i> Frameworks &amp; Tools</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">DevOps</span>
+                        <span class="skill-tag">Hydra</span>
+                        <span class="skill-tag">Recon Tools</span>
+                        <span class="skill-tag">REST APIs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section experience-section" id="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <div class="experience-timeline">
+                <div class="experience-card fade-in">
+                    <div class="experience-header">
+                        <h3>Software Development Intern</h3>
+                        <span class="company">Techplement</span>
+                    </div>
+                    <ul class="experience-list">
+                        <li>Built and optimized REST APIs for backend systems, improving response efficiency by 20%</li>
+                        <li>Contributed to codebase maintenance and debugging for real-time applications</li>
+                    </ul>
+                </div>
+                <div class="experience-card fade-in">
+                    <div class="experience-header">
+                        <h3>Software Development Intern</h3>
+                        <span class="company">Springer Capital</span>
+                    </div>
+                    <ul class="experience-list">
+                        <li>Developed a data extraction service to automate structured data collection from multiple sources</li>
+                        <li>Implemented robust error-handling mechanisms and optimized API performance</li>
+                    </ul>
+                </div>
+                <div class="experience-card fade-in">
+                    <div class="experience-header">
+                        <h3>Software Development Intern</h3>
+                        <span class="company">Edunet Foundation (AICTE)</span>
+                    </div>
+                    <ul class="experience-list">
+                        <li>Collaborated on a capstone project aimed at assisting people affected by natural hazards using AI-based solutions</li>
+                        <li>Integrated machine learning models for risk prediction and rapid response</li>
+                    </ul>
+                </div>
+                <div class="experience-card fade-in">
+                    <div class="experience-header">
+                        <h3>Software Development Intern</h3>
+                        <span class="company">Zidio Development</span>
+                    </div>
+                    <ul class="experience-list">
+                        <li>Designed backend APIs and implemented authentication workflows for secure web apps</li>
+                        <li>Enhanced database efficiency and system performance through optimized queries</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section projects-section" id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-icon"><i class="fas fa-palette"></i></div>
+                    <h3>AI-Driven Artisan Empowerment Application</h3>
+                    <p>Developed an AI-based solution to empower local artisans by analyzing productivity data and providing personalized recommendations</p>
+                    <div class="project-tags">
+                        <span>AI</span>
+                        <span>Machine Learning</span>
+                        <span>Python</span>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-icon"><i class="fas fa-video"></i></div>
+                    <h3>Real-Time Object Detection System</h3>
+                    <p>Designed using Python and OpenCV for live camera feeds; achieved accurate detection and tracking of moving objects in real time</p>
+                    <div class="project-tags">
+                        <span>Python</span>
+                        <span>OpenCV</span>
+                        <span>Computer Vision</span>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Fraud Detection through AI</h3>
+                    <p>Built a machine learning model that identifies potential fraud attempts using public datasets; achieved significant accuracy in early-stage detection</p>
+                    <div class="project-tags">
+                        <span>Machine Learning</span>
+                        <span>Python</span>
+                        <span>Data Analysis</span>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-icon"><i class="fas fa-bug"></i></div>
+                    <h3>Honeypot Threat Analysis</h3>
+                    <p>Designed and deployed a honeypot to log unauthorized intrusion attempts and analyze attacker behavior for security insights</p>
+                    <div class="project-tags">
+                        <span>Cybersecurity</span>
+                        <span>Honeypot</span>
+                        <span>Security</span>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-icon"><i class="fas fa-network-wired"></i></div>
+                    <h3>Advanced Network Diagnostic Tool</h3>
+                    <p>Created tools to analyze and monitor network performance, identifying vulnerabilities and optimizing reliability</p>
+                    <div class="project-tags">
+                        <span>Networking</span>
+                        <span>Security</span>
+                        <span>Python</span>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-icon"><i class="fas fa-search"></i></div>
+                    <h3>Bug Scanner</h3>
+                    <p>Built a scanner to detect common web application vulnerabilities, improving overall security assessment speed</p>
+                    <div class="project-tags">
+                        <span>Security</span>
+                        <span>Web Testing</span>
+                        <span>Python</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section class="section certifications-section" id="certifications">
+        <div class="container">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certifications-grid">
+                <div class="cert-badge fade-in">
+                    <div class="cert-icon"><i class="fas fa-certificate"></i></div>
+                    <h3>Data Science and Machine Learning</h3>
+                    <p>IIT Guwahati</p>
+                    <span class="cert-duration">4-week program</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interests Section -->
+    <section class="section interests-section" id="interests">
+        <div class="container">
+            <h2 class="section-title">Interests</h2>
+            <div class="interests-tags">
+                <span class="interest-tag fade-in"><i class="fas fa-robot"></i> Artificial Intelligence</span>
+                <span class="interest-tag fade-in"><i class="fas fa-shield-alt"></i> Cybersecurity</span>
+                <span class="interest-tag fade-in"><i class="fab fa-github"></i> Open Source Projects</span>
+                <span class="interest-tag fade-in"><i class="fas fa-cogs"></i> Automation</span>
+                <span class="interest-tag fade-in"><i class="fas fa-network-wired"></i> Network Security</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info fade-in">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="mailto:ss9830872697@gmail.com">ss9830872697@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <h4>Phone</h4>
+                            <a href="tel:+918777651702">+91 87776 51702</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>11 NK Ghosal Road, Kasba<br>Kolkata – 700042</p>
+                        </div>
+                    </div>
+                    <div class="contact-social">
+                        <a href="https://github.com/sahoo-tech" target="_blank" class="social-btn"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/sayantan-sahoo-8482a62a0" target="_blank" class="social-btn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form-container fade-in">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit"><i class="fas fa-paper-plane"></i> Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sayantan Sahoo. All rights reserved.</p>
+            <p>Built with passion &amp; code</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
