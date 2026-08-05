@@ -3,400 +3,1498 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayantan Sahoo - Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Sayantan Sahoo — AI & Cybersecurity Engineer</title>
+    <meta name="description" content="Sayantan Sahoo — Computer Science Engineer specializing in AI, Data Science, and Cybersecurity. Full-stack developer building secure, intelligent systems.">
+    <meta name="keywords" content="Sayantan Sahoo, AI Engineer, Cybersecurity, Full Stack Developer, Data Science, Portfolio">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loader" id="loader">
-        <div class="loader-content">
-            <div class="spinner"></div>
-            <p>Loading Portfolio...</p>
+
+    <!-- Continuous AAA Cyberpunk Background Canvas -->
+    <canvas id="cyberpunkBgCanvas"></canvas>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Boot Screen -->
+    <div class="boot-screen" id="bootScreen">
+        <canvas id="bootCanvas"></canvas>
+        <div class="boot-content">
+            <div class="boot-logo">
+                <span class="boot-logo-ss">SS</span>
+                <div class="boot-logo-glow"></div>
+            </div>
+            <div class="boot-terminal" id="bootTerminal">
+                <div class="terminal-line" id="tLine0"></div>
+                <div class="terminal-line" id="tLine1"></div>
+                <div class="terminal-line" id="tLine2"></div>
+                <div class="terminal-line" id="tLine3"></div>
+                <div class="terminal-line" id="tLine4"></div>
+                <div class="terminal-cursor">█</div>
+            </div>
+            <div class="boot-progress-wrap">
+                <div class="boot-progress-bar">
+                    <div class="boot-progress-fill" id="bootProgress"></div>
+                </div>
+                <div class="boot-progress-text" id="bootProgressText">0%</div>
+            </div>
         </div>
+        <button class="skip-intro-btn" id="skipIntro">SKIP INTRO <i class="fas fa-forward"></i></button>
     </div>
 
-    <!-- Navigation -->
+    <!-- Floating Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">SS</div>
+            <div class="nav-logo" id="navLogo">
+                <span class="logo-ss">SS</span>
+                <div class="logo-scan-line"></div>
+            </div>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#education" class="nav-link">Education</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#experience" class="nav-link">Experience</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+                <li><a href="#education" class="nav-link" data-section="education">Education</a></li>
+                <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+                <li><a href="#experience" class="nav-link" data-section="experience">Experience</a></li>
+                <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
+                <li><a href="#certifications" class="nav-link" data-section="certifications">Certs</a></li>
+                <li><a href="#github" class="nav-link" data-section="github">GitHub</a></li>
+                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+                <li><a href="Sayantan_Sahoo(CV-3).pdf" download class="nav-link nav-resume-btn"><i class="fas fa-file-alt"></i> Resume</a></li>
             </ul>
             <div class="nav-toggle" id="navToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="particles" id="particles"></div>
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-name">SAYANTAN SAHOO</h1>
-                <div class="hero-tagline">
-                    <span class="typing-text" id="typingText"></span>
-                    <span class="cursor">|</span>
-                </div>
-                <p class="hero-summary">Curious and results-driven Computer Science Engineer passionate about AI, Data Science, and Cybersecurity</p>
-                <div class="hero-buttons">
-                    <a href="Sayantan_Sahoo(CV).pdf" download="Sayantan_Sahoo_CV.pdf" class="btn btn-primary"><i class="fas fa-download"></i> Download CV</a>
-                    <a href="#contact" class="btn btn-secondary"><i class="fas fa-envelope"></i> Contact Me</a>
-                </div>
-                <div class="hero-social">
-                    <a href="https://github.com/sahoo-tech" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/sayantan-sahoo-8482a62a0" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
-                    <a href="mailto:ss9830872697@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
-                    <a href="tel:+918777651702" class="social-link"><i class="fas fa-phone"></i></a>
-                </div>
-                <div class="hero-location">
-                    <i class="fas fa-map-marker-alt"></i> Kolkata, India
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="mouse"></div>
-        </div>
-    </section>
+    <!-- Main Portfolio Content -->
+    <main id="mainContent" class="main-content">
 
-    <!-- About Section -->
-    <section class="section about-section" id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text fade-in">
-                    <p class="about-summary">Curious and results-driven Computer Science Engineer passionate about AI, Data Science, and Cybersecurity. Experienced in full-stack development and secure system design, with hands-on work in AI-driven solutions, backend services, and threat detection systems. Thrives on solving real-world problems through innovation, data, and automation with a focus on building scalable and secure applications.</p>
-                </div>
-                <div class="strengths-grid">
-                    <div class="strength-card slide-in">
-                        <div class="strength-icon"><i class="fas fa-code"></i></div>
-                        <h3>Strong Foundation</h3>
-                        <p>Strong foundation in algorithms, data structures, and backend development</p>
-                    </div>
-                    <div class="strength-card slide-in">
-                        <div class="strength-icon"><i class="fas fa-brain"></i></div>
-                        <h3>Quick Learner</h3>
-                        <p>Quick learner with a passion for exploring emerging technologies</p>
-                    </div>
-                    <div class="strength-card slide-in">
-                        <div class="strength-icon"><i class="fas fa-chart-line"></i></div>
-                        <h3>Data-Driven</h3>
-                        <p>Adept at translating data insights into real-world applications</p>
-                    </div>
-                    <div class="strength-card slide-in">
-                        <div class="strength-icon"><i class="fas fa-lightbulb"></i></div>
-                        <h3>Innovation Focused</h3>
-                        <p>Focused on innovation, security, and impact-driven problem solving</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <!-- ═══ HERO SECTION ═══ -->
+        <section class="hero-section" id="home">
+            <canvas id="heroCanvas"></canvas>
+            <div class="hero-grid-overlay"></div>
+            <div class="hero-particles" id="heroParticles"></div>
 
-    <!-- Education Section -->
-    <section class="section education-section" id="education">
-        <div class="container">
-            <h2 class="section-title">Education</h2>
-            <div class="timeline">
-                <div class="timeline-item fade-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2024 – Present</div>
-                        <h3>B.Tech in Computer Science and Engineering</h3>
-                        <p>University Institute of Technology, The Burdwan University</p>
+            <div class="hero-content">
+                <div class="hero-left">
+                    <div class="hero-greeting reveal-up">
+                        <span class="greeting-line"></span>
+                        <span class="greeting-text">INITIALIZING PROFILE</span>
+                        <span class="greeting-line"></span>
+                    </div>
+                    <h1 class="hero-name reveal-up">
+                        <span class="name-first">SAYANTAN</span>
+                        <span class="name-last">SAHOO</span>
+                    </h1>
+                    <div class="hero-role-wrap reveal-up">
+                        <span class="role-prefix">&gt;&gt;</span>
+                        <span class="typing-text" id="typingText"></span>
+                        <span class="typing-cursor">|</span>
+                    </div>
+                    <p class="hero-summary reveal-up">
+                        Curious and results-driven Computer Science Engineer passionate about <span class="text-cyan">AI</span>, <span class="text-violet">Data Science</span>, and <span class="text-blue">Cybersecurity</span>. Building secure, intelligent systems for a better tomorrow.
+                    </p>
+                    <div class="hero-cta reveal-up">
+                        <a href="Sayantan_Sahoo(CV-3).pdf" download class="cta-btn cta-primary" id="downloadCVBtn">
+                            <span class="btn-icon"><i class="fas fa-download"></i></span>
+                            <span class="btn-text">Download CV</span>
+                            <span class="btn-glow"></span>
+                        </a>
+                        <a href="#projects" class="cta-btn cta-secondary" id="viewProjectsBtn">
+                            <span class="btn-icon"><i class="fas fa-rocket"></i></span>
+                            <span class="btn-text">View Projects</span>
+                        </a>
+                        <a href="#contact" class="cta-btn cta-outline" id="contactMeBtn">
+                            <span class="btn-icon"><i class="fas fa-satellite-dish"></i></span>
+                            <span class="btn-text">Contact</span>
+                        </a>
+                    </div>
+                    <div class="hero-social reveal-up">
+                        <a href="https://github.com/sahoo-tech" target="_blank" class="social-orb" title="GitHub" id="githubLink">
+                            <i class="fab fa-github"></i>
+                            <span class="orb-glow"></span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/sayantan-sahoo-8482a62a0" target="_blank" class="social-orb" title="LinkedIn" id="linkedinLink">
+                            <i class="fab fa-linkedin"></i>
+                            <span class="orb-glow"></span>
+                        </a>
+                        <a href="mailto:ss9830872697@gmail.com" class="social-orb" title="Email" id="emailLink">
+                            <i class="fas fa-envelope"></i>
+                            <span class="orb-glow"></span>
+                        </a>
+                        <a href="tel:+918777651702" class="social-orb" title="Phone" id="phoneLink">
+                            <i class="fas fa-phone"></i>
+                            <span class="orb-glow"></span>
+                        </a>
+                    </div>
+                    <div class="hero-location reveal-up">
+                        <i class="fas fa-map-marker-alt text-cyan"></i>
+                        <span>Kolkata, India</span>
+                        <span class="location-ping"></span>
                     </div>
                 </div>
-                <div class="timeline-item fade-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2025 – 2029</div>
-                        <h3>BS in Data Science and Applications</h3>
-                        <p>Indian Institute of Technology, Madras (Online Program)</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Skills Section -->
-    <section class="section skills-section" id="skills">
-        <div class="container">
-            <h2 class="section-title">Skills &amp; Technologies</h2>
-            <div class="skills-container">
-                <div class="skill-category fade-in">
-                    <h3><i class="fas fa-laptop-code"></i> Languages</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">C/C++</span>
-                        <span class="skill-tag">Node.js</span>
-                    </div>
-                </div>
-                <div class="skill-category fade-in">
-                    <h3><i class="fas fa-globe"></i> Web Development</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">HTML</span>
-                        <span class="skill-tag">Bootstrap</span>
-                        <span class="skill-tag">Tailwind</span>
-                    </div>
-                </div>
-                <div class="skill-category fade-in">
-                    <h3><i class="fas fa-database"></i> Databases</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">PostgreSQL</span>
-                    </div>
-                </div>
-                <div class="skill-category fade-in">
-                    <h3><i class="fas fa-robot"></i> Data Science &amp; AI</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">NumPy</span>
-                        <span class="skill-tag">Pandas</span>
-                        <span class="skill-tag">Matplotlib</span>
-                        <span class="skill-tag">SciPy</span>
-                        <span class="skill-tag">Machine Learning</span>
-                        <span class="skill-tag">NLP</span>
-                        <span class="skill-tag">Voice Cloning</span>
-                    </div>
-                </div>
-                <div class="skill-category fade-in">
-                    <h3><i class="fas fa-shield-alt"></i> Cybersecurity</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Ethical Hacking</span>
-                        <span class="skill-tag">Google Dorking</span>
-                        <span class="skill-tag">Honeypot Systems</span>
-                        <span class="skill-tag">Network Diagnostics</span>
-                    </div>
-                </div>
-                <div class="skill-category fade-in">
-                    <h3><i class="fas fa-tools"></i> Frameworks &amp; Tools</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">DevOps</span>
-                        <span class="skill-tag">Hydra</span>
-                        <span class="skill-tag">Recon Tools</span>
-                        <span class="skill-tag">REST APIs</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section class="section experience-section" id="experience">
-        <div class="container">
-            <h2 class="section-title">Experience</h2>
-            <div class="experience-timeline">
-                <div class="experience-card fade-in">
-                    <div class="experience-header">
-                        <h3>Software Development Intern</h3>
-                        <span class="company">Techplement</span>
-                    </div>
-                    <ul class="experience-list">
-                        <li>Built and optimized REST APIs for backend systems, improving response efficiency by 20%</li>
-                        <li>Contributed to codebase maintenance and debugging for real-time applications</li>
-                    </ul>
-                </div>
-                <div class="experience-card fade-in">
-                    <div class="experience-header">
-                        <h3>Software Development Intern</h3>
-                        <span class="company">Springer Capital</span>
-                    </div>
-                    <ul class="experience-list">
-                        <li>Developed a data extraction service to automate structured data collection from multiple sources</li>
-                        <li>Implemented robust error-handling mechanisms and optimized API performance</li>
-                    </ul>
-                </div>
-                <div class="experience-card fade-in">
-                    <div class="experience-header">
-                        <h3>Software Development Intern</h3>
-                        <span class="company">Edunet Foundation (AICTE)</span>
-                    </div>
-                    <ul class="experience-list">
-                        <li>Collaborated on a capstone project aimed at assisting people affected by natural hazards using AI-based solutions</li>
-                        <li>Integrated machine learning models for risk prediction and rapid response</li>
-                    </ul>
-                </div>
-                <div class="experience-card fade-in">
-                    <div class="experience-header">
-                        <h3>Software Development Intern</h3>
-                        <span class="company">Zidio Development</span>
-                    </div>
-                    <ul class="experience-list">
-                        <li>Designed backend APIs and implemented authentication workflows for secure web apps</li>
-                        <li>Enhanced database efficiency and system performance through optimized queries</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="section projects-section" id="projects">
-        <div class="container">
-            <h2 class="section-title">Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card fade-in">
-                    <div class="project-icon"><i class="fas fa-palette"></i></div>
-                    <h3>AI-Driven Artisan Empowerment Application</h3>
-                    <p>Developed an AI-based solution to empower local artisans by analyzing productivity data and providing personalized recommendations</p>
-                    <div class="project-tags">
-                        <span>AI</span>
-                        <span>Machine Learning</span>
-                        <span>Python</span>
-                    </div>
-                </div>
-                <div class="project-card fade-in">
-                    <div class="project-icon"><i class="fas fa-video"></i></div>
-                    <h3>Real-Time Object Detection System</h3>
-                    <p>Designed using Python and OpenCV for live camera feeds; achieved accurate detection and tracking of moving objects in real time</p>
-                    <div class="project-tags">
-                        <span>Python</span>
-                        <span>OpenCV</span>
-                        <span>Computer Vision</span>
-                    </div>
-                </div>
-                <div class="project-card fade-in">
-                    <div class="project-icon"><i class="fas fa-shield-alt"></i></div>
-                    <h3>Fraud Detection through AI</h3>
-                    <p>Built a machine learning model that identifies potential fraud attempts using public datasets; achieved significant accuracy in early-stage detection</p>
-                    <div class="project-tags">
-                        <span>Machine Learning</span>
-                        <span>Python</span>
-                        <span>Data Analysis</span>
-                    </div>
-                </div>
-                <div class="project-card fade-in">
-                    <div class="project-icon"><i class="fas fa-bug"></i></div>
-                    <h3>Honeypot Threat Analysis</h3>
-                    <p>Designed and deployed a honeypot to log unauthorized intrusion attempts and analyze attacker behavior for security insights</p>
-                    <div class="project-tags">
-                        <span>Cybersecurity</span>
-                        <span>Honeypot</span>
-                        <span>Security</span>
-                    </div>
-                </div>
-                <div class="project-card fade-in">
-                    <div class="project-icon"><i class="fas fa-network-wired"></i></div>
-                    <h3>Advanced Network Diagnostic Tool</h3>
-                    <p>Created tools to analyze and monitor network performance, identifying vulnerabilities and optimizing reliability</p>
-                    <div class="project-tags">
-                        <span>Networking</span>
-                        <span>Security</span>
-                        <span>Python</span>
-                    </div>
-                </div>
-                <div class="project-card fade-in">
-                    <div class="project-icon"><i class="fas fa-search"></i></div>
-                    <h3>Bug Scanner</h3>
-                    <p>Built a scanner to detect common web application vulnerabilities, improving overall security assessment speed</p>
-                    <div class="project-tags">
-                        <span>Security</span>
-                        <span>Web Testing</span>
-                        <span>Python</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Certifications Section -->
-    <section class="section certifications-section" id="certifications">
-        <div class="container">
-            <h2 class="section-title">Certifications</h2>
-            <div class="certifications-grid">
-                <div class="cert-badge fade-in">
-                    <div class="cert-icon"><i class="fas fa-certificate"></i></div>
-                    <h3>Data Science and Machine Learning</h3>
-                    <p>IIT Guwahati</p>
-                    <span class="cert-duration">4-week program</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Interests Section -->
-    <section class="section interests-section" id="interests">
-        <div class="container">
-            <h2 class="section-title">Interests</h2>
-            <div class="interests-tags">
-                <span class="interest-tag fade-in"><i class="fas fa-robot"></i> Artificial Intelligence</span>
-                <span class="interest-tag fade-in"><i class="fas fa-shield-alt"></i> Cybersecurity</span>
-                <span class="interest-tag fade-in"><i class="fab fa-github"></i> Open Source Projects</span>
-                <span class="interest-tag fade-in"><i class="fas fa-cogs"></i> Automation</span>
-                <span class="interest-tag fade-in"><i class="fas fa-network-wired"></i> Network Security</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section contact-section" id="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <div class="contact-info fade-in">
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                        <div>
-                            <h4>Email</h4>
-                            <a href="mailto:ss9830872697@gmail.com">ss9830872697@gmail.com</a>
+                <div class="hero-right">
+                    <div class="holographic-avatar reveal-right">
+                        <div class="avatar-rings">
+                            <div class="ring ring-1"></div>
+                            <div class="ring ring-2"></div>
+                            <div class="ring ring-3"></div>
+                        </div>
+                        <div class="avatar-core">
+                            <div class="avatar-hex">
+                                <span class="avatar-initials">SS</span>
+                                <div class="avatar-scan-line"></div>
+                            </div>
+                        </div>
+                        <div class="avatar-hud">
+                            <div class="hud-item hud-tl">STATUS: ONLINE</div>
+                            <div class="hud-item hud-tr">v2.0.26</div>
+                            <div class="hud-item hud-bl">AI ENGINEER</div>
+                            <div class="hud-item hud-br">SECURE</div>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                        <div>
-                            <h4>Phone</h4>
-                            <a href="tel:+918777651702">+91 87776 51702</a>
+
+                    <div class="stat-cards reveal-right">
+                        <div class="stat-card" id="statProjects">
+                            <div class="stat-value" data-target="30">0</div>
+                            <div class="stat-label">Projects+</div>
+                            <div class="stat-bar"></div>
+                        </div>
+                        <div class="stat-card" id="statInternships">
+                            <div class="stat-value" data-target="4">0</div>
+                            <div class="stat-label">Internships+</div>
+                            <div class="stat-bar"></div>
+                        </div>
+                        <div class="stat-card" id="statSkills">
+                            <div class="stat-value" data-target="20">0</div>
+                            <div class="stat-label">Skills+</div>
+                            <div class="stat-bar"></div>
+                        </div>
+                        <div class="stat-card" id="statCerts">
+                            <div class="stat-value" data-target="2">0</div>
+                            <div class="stat-label">Certs</div>
+                            <div class="stat-bar"></div>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <div>
-                            <h4>Location</h4>
-                            <p>11 NK Ghosal Road, Kasba<br>Kolkata – 700042</p>
-                        </div>
-                    </div>
-                    <div class="contact-social">
-                        <a href="https://github.com/sahoo-tech" target="_blank" class="social-btn"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/sayantan-sahoo-8482a62a0" target="_blank" class="social-btn"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="contact-form-container fade-in">
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="subject" name="subject" placeholder="Subject" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-submit"><i class="fas fa-paper-plane"></i> Send Message</button>
-                    </form>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
+            <div class="scroll-indicator">
+                <div class="scroll-mouse">
+                    <div class="scroll-wheel"></div>
+                </div>
+                <span>SCROLL TO EXPLORE</span>
+            </div>
+        </section>
+
+        <!-- ═══ ABOUT SECTION — AI IDENTITY CORE ═══ -->
+        <section class="section about-ai-section" id="about">
+            <!-- Boot Overlay -->
+            <div class="ai-boot-overlay" id="aiBootOverlay">
+                <canvas class="boot-scan-canvas" id="bootScanCanvas"></canvas>
+                <div class="boot-messages" id="bootMessages">
+                    <div class="boot-msg" id="bm0"></div>
+                    <div class="boot-msg" id="bm1"></div>
+                    <div class="boot-msg" id="bm2"></div>
+                    <div class="boot-msg" id="bm3"></div>
+                    <div class="boot-msg" id="bm4"></div>
+                </div>
+                <div class="boot-scan-beam" id="bootScanBeam"></div>
+            </div>
+
+            <div class="about-holo-grid"></div>
+            <div class="about-particles" id="aboutParticles"></div>
+            <canvas class="about-circuit-canvas" id="aboutCircuitCanvas"></canvas>
+
+            <div class="container about-ai-container" id="aboutAiContainer" style="opacity:0">
+
+                <!-- ── Section Header ── -->
+                <div class="section-header">
+                    <div class="section-tag">[ AI.IDENTITY.CORE ]</div>
+                    <h2 class="section-title">About <span class="text-cyan">Me</span></h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <!-- ══ MODULE 1: HOLOGRAPHIC IDENTITY CARD + STATS RING ══ -->
+                <div class="ai-hero-row">
+                    <!-- Holographic Avatar Chamber -->
+                    <div class="holo-chamber">
+                        <div class="chamber-rings">
+                            <div class="c-ring cr1"></div>
+                            <div class="c-ring cr2"></div>
+                            <div class="c-ring cr3"></div>
+                        </div>
+                        <div class="chamber-avatar">
+                            <div class="avatar-hex-holo">
+                                <span class="avatar-initials-holo">SS</span>
+                                <div class="avatar-holo-scan"></div>
+                                <div class="avatar-energy-outline"></div>
+                            </div>
+                        </div>
+                        <div class="chamber-particles" id="chamberParticles"></div>
+                    </div>
+
+                    <!-- AI Identity Card -->
+                    <div class="ai-identity-card glass-card">
+                        <div class="card-header-bar">
+                            <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                            <span class="card-title-bar">personnel_record.json</span>
+                            <span class="id-card-status">CLEARANCE: ALPHA</span>
+                        </div>
+                        <div class="id-fields" id="idFields">
+                            <div class="id-field"><span class="id-label">FULL_NAME</span><span class="id-value id-typed" data-val="Sayantan Sahoo"></span></div>
+                            <div class="id-field"><span class="id-label">DESIGNATION</span><span class="id-value id-typed" data-val="Backend Dev · AI Engineer · CS Student"></span></div>
+                            <div class="id-field"><span class="id-label">STATUS</span><span class="id-value"><span class="status-badge-live">● ONLINE</span></span></div>
+                            <div class="id-field"><span class="id-label">EDUCATION</span><span class="id-value id-typed" data-val="B.Tech CSE · IIT Madras BS (Dual)"></span></div>
+                            <div class="id-field"><span class="id-label">EXPERIENCE</span><span class="id-value id-typed" data-val="5 Internships · 1 Active Role"></span></div>
+                            <div class="id-field"><span class="id-label">GITHUB</span><span class="id-value id-typed" data-val="github.com/sahoo-tech · 35+ Repos"></span></div>
+                            <div class="id-field"><span class="id-label">TECH_STACK</span><span class="id-value id-typed" data-val="Python · Java · Node.js · React · Django"></span></div>
+                            <div class="id-field"><span class="id-label">LOCATION</span><span class="id-value id-typed" data-val="Kolkata, India 📍"></span></div>
+                            <div class="id-field"><span class="id-label">AVAILABILITY</span><span class="id-value"><span class="avail-badge">OPEN TO OPPORTUNITIES</span></span></div>
+                        </div>
+                        <div class="id-mission-line">
+                            <i class="fas fa-quote-left text-cyan"></i>
+                            <span class="id-mission-text">Building secure, intelligent systems for a better tomorrow.</span>
+                            <i class="fas fa-quote-right text-cyan"></i>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Ring -->
+                    <div class="stats-ring-panel">
+                        <div class="stats-ring-title">SYSTEM METRICS</div>
+                        <div class="stats-ring-nodes" id="statsRingNodes">
+                            <div class="srn srn1"><div class="srn-val">35+</div><div class="srn-lbl">Repos</div></div>
+                            <div class="srn srn2"><div class="srn-val">5</div><div class="srn-lbl">Internships</div></div>
+                            <div class="srn srn3"><div class="srn-val">30+</div><div class="srn-lbl">Projects</div></div>
+                            <div class="srn srn4"><div class="srn-val">20+</div><div class="srn-lbl">Skills</div></div>
+                            <div class="srn srn5"><div class="srn-val">2</div><div class="srn-lbl">Degrees</div></div>
+                            <div class="srn srn6"><div class="srn-val">2</div><div class="srn-lbl">Certs</div></div>
+                            <div class="srn srn7"><div class="srn-val">2+</div><div class="srn-lbl">Hackathons</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══ MODULE 2: MISSION TERMINAL ══ -->
+                <div class="mission-terminal glass-card reveal-up" id="missionTerminal">
+                    <div class="card-header-bar">
+                        <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                        <span class="card-title-bar">mission_protocol.sh</span>
+                    </div>
+                    <div class="mt-body">
+                        <div class="mt-line"><span class="mt-prompt">▶</span><span class="mt-cmd">cat /sys/sayantan/mission.txt</span></div>
+                        <div class="mt-output" id="missionOutput"></div>
+                    </div>
+                </div>
+
+                <!-- ══ MODULE 3: TECHNOLOGY DNA ══ -->
+                <div class="tech-dna-section reveal-up">
+                    <div class="dna-title">TECHNOLOGY <span class="text-cyan">DNA</span></div>
+                    <div class="dna-track-wrapper">
+                        <div class="dna-track" id="dnaTechTrack">
+                            <div class="dna-node" data-tech="Python" data-used="Code-Analyzer · VIRALYTIX · Edunet · Zidio · Springer" data-color="#00F5FF"><i class="fab fa-python"></i><span>Python</span></div>
+                            <div class="dna-node" data-tech="Java" data-used="Backend Systems · Academic Projects" data-color="#3A8DFF"><i class="fab fa-java"></i><span>Java</span></div>
+                            <div class="dna-node" data-tech="Node.js" data-used="Full-Stack Apps · REST APIs" data-color="#8A2BE2"><i class="fab fa-node-js"></i><span>Node.js</span></div>
+                            <div class="dna-node" data-tech="React.js" data-used="Chainmuse · VIRALYTIX · Portfolio" data-color="#00F5FF"><i class="fab fa-react"></i><span>React</span></div>
+                            <div class="dna-node" data-tech="Django" data-used="Backend APIs · Web Apps" data-color="#FF00B8"><span class="dna-icon">Dj</span><span>Django</span></div>
+                            <div class="dna-node" data-tech="Docker" data-used="DevOps · Containerisation" data-color="#3A8DFF"><i class="fab fa-docker"></i><span>Docker</span></div>
+                            <div class="dna-node" data-tech="Next.js" data-used="Full-Stack React Apps" data-color="#8A2BE2"><span class="dna-icon">N</span><span>Next.js</span></div>
+                            <div class="dna-node" data-tech="TypeScript" data-used="Type-safe Development" data-color="#00F5FF"><span class="dna-icon">TS</span><span>TypeScript</span></div>
+                            <div class="dna-node" data-tech="C/C++" data-used="Algorithms · Competitive Programming" data-color="#FF00B8"><span class="dna-icon">C</span><span>C/C++</span></div>
+                            <div class="dna-node" data-tech="Kotlin" data-used="Android Development" data-color="#3A8DFF"><span class="dna-icon">K</span><span>Kotlin</span></div>
+                            <div class="dna-node" data-tech="Git" data-used="All 35+ Repositories" data-color="#00F5FF"><i class="fab fa-git-alt"></i><span>Git</span></div>
+                            <div class="dna-node" data-tech="AI/ML" data-used="Code-Analyzer · VIRALYTIX · Chainmuse" data-color="#8A2BE2"><i class="fas fa-brain"></i><span>AI/ML</span></div>
+                            <div class="dna-node" data-tech="REST APIs" data-used="RoboTech · Techplement · Zidio · Springer" data-color="#FF00B8"><i class="fas fa-plug"></i><span>REST APIs</span></div>
+                            <div class="dna-node" data-tech="Cybersecurity" data-used="Threat Detection · Secure Systems" data-color="#00F5FF"><i class="fas fa-shield-alt"></i><span>Security</span></div>
+                        </div>
+                        <div class="dna-tooltip" id="dnaTechTooltip"></div>
+                    </div>
+                </div>
+
+                <!-- ══ MODULE 4: CAREER PIPELINE ══ -->
+                <div class="career-pipeline reveal-up">
+                    <div class="pipeline-title">CAREER <span class="text-cyan">PIPELINE</span></div>
+                    <div class="pipeline-track">
+                        <div class="pipeline-line"><div class="pipeline-energy"></div></div>
+                        <div class="pipeline-items" id="pipelineItems">
+                            <div class="pipe-item" data-color="#00F5FF">
+                                <div class="pipe-node"><div class="pipe-pulse"></div><i class="fas fa-graduation-cap"></i></div>
+                                <div class="pipe-card glass-card">
+                                    <div class="pipe-date">2024</div>
+                                    <div class="pipe-event">B.Tech CSE Begins</div>
+                                    <div class="pipe-detail">University Institute of Technology, Burdwan University</div>
+                                    <div class="pipe-tags"><span>CSE</span><span>Engineering</span></div>
+                                </div>
+                            </div>
+                            <div class="pipe-item" data-color="#3A8DFF">
+                                <div class="pipe-node"><div class="pipe-pulse"></div><i class="fas fa-briefcase"></i></div>
+                                <div class="pipe-card glass-card">
+                                    <div class="pipe-date">Aug 2024</div>
+                                    <div class="pipe-event">Software Dev Intern @ Techplement</div>
+                                    <div class="pipe-detail">Backend development, REST API creation &amp; optimisation</div>
+                                    <div class="pipe-tags"><span>REST APIs</span><span>Python</span></div>
+                                </div>
+                            </div>
+                            <div class="pipe-item" data-color="#8A2BE2">
+                                <div class="pipe-node"><div class="pipe-pulse"></div><i class="fas fa-briefcase"></i></div>
+                                <div class="pipe-card glass-card">
+                                    <div class="pipe-date">Jun 2025</div>
+                                    <div class="pipe-event">Software Engineer Intern @ Zidio</div>
+                                    <div class="pipe-detail">Backend components &amp; API creation</div>
+                                    <div class="pipe-tags"><span>Backend</span><span>APIs</span></div>
+                                </div>
+                            </div>
+                            <div class="pipe-item" data-color="#FF00B8">
+                                <div class="pipe-node"><div class="pipe-pulse"></div><i class="fas fa-atom"></i></div>
+                                <div class="pipe-card glass-card">
+                                    <div class="pipe-date">2025</div>
+                                    <div class="pipe-event">BS Data Science @ IIT Madras</div>
+                                    <div class="pipe-detail">IIT Madras Online BS Programme (2025–2029)</div>
+                                    <div class="pipe-tags"><span>Data Science</span><span>IIT Madras</span></div>
+                                </div>
+                            </div>
+                            <div class="pipe-item" data-color="#00F5FF">
+                                <div class="pipe-node"><div class="pipe-pulse"></div><i class="fas fa-briefcase"></i></div>
+                                <div class="pipe-card glass-card">
+                                    <div class="pipe-date">Aug 2025</div>
+                                    <div class="pipe-event">Software Engineer Intern @ Edunet Foundation</div>
+                                    <div class="pipe-detail">Python-based development, scripting &amp; automation</div>
+                                    <div class="pipe-tags"><span>Python</span><span>Automation</span></div>
+                                </div>
+                            </div>
+                            <div class="pipe-item" data-color="#3A8DFF">
+                                <div class="pipe-node"><div class="pipe-pulse"></div><i class="fas fa-briefcase"></i></div>
+                                <div class="pipe-card glass-card">
+                                    <div class="pipe-date">Oct 2025</div>
+                                    <div class="pipe-event">Software Engineer Intern @ Springer Capital</div>
+                                    <div class="pipe-detail">Backend development &amp; API integration</div>
+                                    <div class="pipe-tags"><span>Backend</span><span>Python</span></div>
+                                </div>
+                            </div>
+                            <div class="pipe-item" data-color="#FF00B8">
+                                <div class="pipe-node"><i class="fas fa-server"></i></div>
+                                <div class="pipe-card glass-card">
+                                    <div class="pipe-date">Feb 2026 – Jul 2026</div>
+                                    <div class="pipe-event">Back End Developer @ RoboTech <span class="pipe-completed-badge">COMPLETED</span></div>
+                                    <div class="pipe-detail">Built &amp; maintained backend services with REST APIs for scalable applications</div>
+                                    <div class="pipe-tags"><span>REST APIs</span><span>Scalable Systems</span></div>
+                                </div>
+                            </div>
+                            <div class="pipe-item" data-color="#00F5FF">
+                                <div class="pipe-node"><div class="pipe-pulse"></div><i class="fas fa-shield-alt"></i></div>
+                                <div class="pipe-card glass-card">
+                                    <div class="pipe-date">2026 – Present</div>
+                                    <div class="pipe-event">Intern @ <em style="opacity:0.6">[Company — Will Update Soon]</em> <span class="pipe-active-badge">ACTIVE</span></div>
+                                    <div class="pipe-detail">Currently active internship — details will be updated soon</div>
+                                    <div class="pipe-tags"><span>Will Update Soon</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══ MODULE 5: AI MEMORY VAULT ══ -->
+                <div class="memory-vault-section reveal-up">
+                    <div class="vault-title">AI MEMORY <span class="text-cyan">VAULT</span></div>
+                    <div class="vault-grid" id="vaultGrid">
+                        <div class="vault-card glass-card" data-vault="origin" data-color="#00F5FF">
+                            <div class="vault-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="vault-label">Origin</div>
+                            <div class="vault-panel">
+                                <p>Based in <strong class="text-cyan">Kolkata, India</strong>. Passionate technologist from West Bengal with a deep curiosity for AI and secure systems.</p>
+                            </div>
+                        </div>
+                        <div class="vault-card glass-card" data-vault="education" data-color="#3A8DFF">
+                            <div class="vault-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <div class="vault-label">Education</div>
+                            <div class="vault-panel">
+                                <p><strong class="text-blue">B.Tech CSE</strong> — Burdwan University (2024–Present)<br><strong class="text-blue">BS Data Science</strong> — IIT Madras (2025–2029)</p>
+                            </div>
+                        </div>
+                        <div class="vault-card glass-card" data-vault="experience" data-color="#8A2BE2">
+                            <div class="vault-icon"><i class="fas fa-briefcase"></i></div>
+                            <div class="vault-label">Experience</div>
+                            <div class="vault-panel">
+                                <p><strong class="text-violet">6 Internships</strong> across Techplement, Zidio, Edunet, Springer Capital, RoboTech.<br>Currently: <strong class="text-cyan">Active Internship</strong> <span style="opacity:0.6;font-size:0.85em">(Company — Will Update Soon)</span></p>
+                            </div>
+                        </div>
+                        <div class="vault-card glass-card" data-vault="projects" data-color="#FF00B8">
+                            <div class="vault-icon"><i class="fas fa-rocket"></i></div>
+                            <div class="vault-label">Projects</div>
+                            <div class="vault-panel">
+                                <p><strong class="text-magenta">30+ Projects</strong> including Chainmuse (Web3/AI), Code-Analyzer (AI/AST), VIRALYTIX (AI Health), and more on GitHub.</p>
+                            </div>
+                        </div>
+                        <div class="vault-card glass-card" data-vault="opensource" data-color="#00F5FF">
+                            <div class="vault-icon"><i class="fab fa-github"></i></div>
+                            <div class="vault-label">Open Source</div>
+                            <div class="vault-panel">
+                                <p>Active contributor on <strong class="text-cyan">github.com/sahoo-tech</strong> with <strong class="text-cyan">35+ public repositories</strong> spanning AI, backend, security, and full-stack.</p>
+                            </div>
+                        </div>
+                        <div class="vault-card glass-card" data-vault="vision" data-color="#8A2BE2">
+                            <div class="vault-icon"><i class="fas fa-eye"></i></div>
+                            <div class="vault-label">Vision</div>
+                            <div class="vault-panel">
+                                <p>To build <strong class="text-violet">intelligent, secure systems</strong> that solve real-world problems. Aiming to contribute to cutting-edge AI research and open-source ecosystems.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══ MODULE 6: INTERACTIVE AI TERMINAL ══ -->
+                <div class="ai-terminal-section glass-card reveal-up" id="aiTerminalSection">
+                    <div class="card-header-bar">
+                        <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                        <span class="card-title-bar">ai_terminal v2.0.26 — sayantan@core:~</span>
+                    </div>
+                    <div class="ai-terminal-body" id="aiTermBody">
+                        <div class="aterm-line aterm-system">AI TERMINAL READY. Type <span class="text-cyan">help</span> to list commands.</div>
+                    </div>
+                    <div class="ai-terminal-input-row">
+                        <span class="aterm-prompt">sayantan@core:~$</span>
+                        <input type="text" class="aterm-input" id="aiTermInput" placeholder="type a command..." autocomplete="off" spellcheck="false">
+                        <button class="aterm-enter" id="aiTermEnter" title="Execute"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+
+                <!-- ══ MODULE 7: ACHIEVEMENT BADGES ══ -->
+                <div class="achievement-badges-section reveal-up">
+                    <div class="ach-title">ACHIEVEMENT <span class="text-cyan">BADGES</span></div>
+                    <div class="ach-badges-wrap" id="achBadgesWrap">
+                        <div class="ach-badge" data-tip="6 internships across 6 companies in Backend &amp; AI" style="--badge-c:#00F5FF"><div class="ach-badge-icon"><i class="fas fa-briefcase"></i></div><div class="ach-badge-label">6× Intern</div></div>
+                        <div class="ach-badge" data-tip="Pursuing BS in Data Science from IIT Madras" style="--badge-c:#3A8DFF"><div class="ach-badge-icon"><i class="fas fa-atom"></i></div><div class="ach-badge-label">IIT Madras</div></div>
+                        <div class="ach-badge" data-tip="30+ real-world projects including Web3, AI, & Health-Tech" style="--badge-c:#8A2BE2"><div class="ach-badge-icon"><i class="fas fa-rocket"></i></div><div class="ach-badge-label">30+ Projects</div></div>
+                        <div class="ach-badge" data-tip="35+ public repositories on GitHub (sahoo-tech)" style="--badge-c:#FF00B8"><div class="ach-badge-icon"><i class="fab fa-github"></i></div><div class="ach-badge-label">35+ Repos</div></div>
+                        <div class="ach-badge" data-tip="Hackathon participation including HackHazard 2025" style="--badge-c:#00F5FF"><div class="ach-badge-icon"><i class="fas fa-trophy"></i></div><div class="ach-badge-label">Hackathons</div></div>
+                        <div class="ach-badge" data-tip="Active open-source contributor on multiple public repos" style="--badge-c:#3A8DFF"><div class="ach-badge-icon"><i class="fas fa-code-branch"></i></div><div class="ach-badge-label">Open Source</div></div>
+                        <div class="ach-badge" data-tip="2 professional certifications in tech domains" style="--badge-c:#8A2BE2"><div class="ach-badge-icon"><i class="fas fa-certificate"></i></div><div class="ach-badge-label">2 Certs</div></div>
+                        <div class="ach-badge" data-tip="Currently active internship — company name will be updated soon" style="--badge-c:#FF00B8"><div class="ach-badge-icon"><i class="fas fa-shield-alt"></i></div><div class="ach-badge-label">Active Dev</div></div>
+                    </div>
+                    <div class="ach-badge-tooltip" id="achBadgeTip"></div>
+                </div>
+
+                <!-- ══ MODULE 8: IDENTITY VERIFIED OUTRO ══ -->
+                <div class="identity-verified-section reveal-up" id="identityVerified">
+                    <div class="iv-lines">
+                        <div class="iv-line iv-l1">[ IDENTITY VERIFIED ]</div>
+                        <div class="iv-line iv-l2">[ SECURITY CLEARANCE GRANTED ]</div>
+                        <div class="iv-line iv-l3">[ PROJECT DATABASE UNLOCKED ]</div>
+                    </div>
+                    <div class="iv-gateway" id="ivGateway">
+                        <div class="gateway-frame gf-left"></div>
+                        <div class="gateway-frame gf-right"></div>
+                        <div class="gateway-energy"></div>
+                        <a href="#projects" class="gateway-enter-btn" id="gatewayBtn">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>ENTER PROJECTS DATABASE</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div><!-- /about-ai-container -->
+        </section>
+
+        <!-- ═══ EDUCATION SECTION ═══ -->
+        <section class="section education-section" id="education">
+            <div class="section-bg-grid"></div>
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">[ ACADEMIC.LOG ]</div>
+                    <h2 class="section-title">Education <span class="text-cyan">Matrix</span></h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="edu-timeline">
+                    <div class="edu-timeline-line">
+                        <div class="timeline-energy"></div>
+                    </div>
+
+                    <div class="edu-item reveal-left">
+                        <div class="edu-node">
+                            <div class="node-pulse"></div>
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="edu-card glass-card">
+                            <div class="edu-card-header">
+                                <div class="edu-date">2024 – Present</div>
+                                <div class="edu-status status-active">ACTIVE</div>
+                            </div>
+                            <h3 class="edu-degree">B.Tech in Computer Science & Engineering</h3>
+                            <p class="edu-institution"><i class="fas fa-university"></i> University Institute of Technology, The Burdwan University</p>
+                            <div class="edu-tags">
+                                <span class="edu-tag">Computer Science</span>
+                                <span class="edu-tag">Engineering</span>
+                                <span class="edu-tag">Burdwan University</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="edu-item reveal-right">
+                        <div class="edu-node">
+                            <div class="node-pulse"></div>
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="edu-card glass-card">
+                            <div class="edu-card-header">
+                                <div class="edu-date">2025 – 2029</div>
+                                <div class="edu-status status-active">ACTIVE</div>
+                            </div>
+                            <h3 class="edu-degree">BS in Data Science and Applications</h3>
+                            <p class="edu-institution"><i class="fas fa-university"></i> Indian Institute of Technology, Madras (Online Program)</p>
+                            <div class="edu-tags">
+                                <span class="edu-tag">Data Science</span>
+                                <span class="edu-tag">IIT Madras</span>
+                                <span class="edu-tag">Online</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ SKILLS SECTION ═══ -->
+        <section class="section skills-section" id="skills">
+            <canvas class="skills-bg-canvas" id="skillsBgCanvas"></canvas>
+            <div class="skills-particles-layer" id="skillsParticles"></div>
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">[ CAPABILITIES.DAT ]</div>
+                    <h2 class="section-title">Skill <span class="text-cyan">Matrix</span></h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <!-- Neural Network Stage -->
+                <div class="neural-stage" id="neuralStage">
+
+                    <!-- SVG Connection Layer -->
+                    <svg class="neural-svg" id="neuralSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+                    <!-- AI Core -->
+                    <div class="ai-core" id="aiCore">
+                        <div class="core-ring core-ring-1"></div>
+                        <div class="core-ring core-ring-2"></div>
+                        <div class="core-ring core-ring-3"></div>
+                        <div class="core-inner">
+                            <div class="core-hex">⬡</div>
+                            <div class="core-label">AI CORE</div>
+                        </div>
+                        <div class="core-pulse"></div>
+                    </div>
+
+                    <!-- Category Arc Labels (populated by JS) -->
+                    <div class="cat-labels-layer" id="catLabels"></div>
+
+                    <!-- Tech Nodes (populated by JS) -->
+                    <div class="tech-nodes-layer" id="techNodes"></div>
+
+                    <!-- Holographic Info Panel -->
+                    <div class="holo-panel" id="holoPanel" aria-hidden="true">
+                        <div class="holo-scan-line"></div>
+                        <div class="holo-corner holo-tl"></div>
+                        <div class="holo-corner holo-tr"></div>
+                        <div class="holo-corner holo-bl"></div>
+                        <div class="holo-corner holo-br"></div>
+                        <div class="holo-header">
+                            <div class="holo-tech-icon" id="panelIcon"></div>
+                            <div class="holo-tech-meta">
+                                <div class="holo-tech-name" id="panelName"></div>
+                                <div class="holo-tech-cat" id="panelCat"></div>
+                            </div>
+                            <div class="holo-status-badge" id="panelStatus"></div>
+                        </div>
+                        <div class="holo-divider"></div>
+                        <div class="holo-body">
+                            <div class="holo-row">
+                                <span class="holo-label">USED IN</span>
+                                <span class="holo-value" id="panelUsedIn"></span>
+                            </div>
+                            <div class="holo-row">
+                                <span class="holo-label">PROJECTS</span>
+                                <span class="holo-value holo-count" id="panelCount"></span>
+                            </div>
+                            <div class="holo-row">
+                                <span class="holo-label">LINKED TO</span>
+                                <span class="holo-value holo-related" id="panelRelated"></span>
+                            </div>
+                            <div class="holo-summary" id="panelSummary"></div>
+                        </div>
+                        <div class="holo-particles" id="holoPanelParticles"></div>
+                    </div>
+
+                </div><!-- /neural-stage -->
+            </div>
+        </section>
+
+        <!-- ═══ EXPERIENCE SECTION (MISSION ARCHIVE) ═══ -->
+        <section class="section experience-section" id="experience">
+            <div class="section-bg-grid"></div>
+            <div class="cyber-scanline-overlay"></div>
+            
+            <div class="container">
+                <div class="section-header">
+                    <div class="mission-archive-label"><i class="fas fa-lock"></i> CLASSIFIED INTELLIGENCE FILE</div>
+                    <div class="section-tag">[ MISSION.ARCHIVE // AI_OPERATIONS_CENTER ]</div>
+                    <h2 class="section-title">Mission <span class="text-cyan">Archive</span></h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <!-- Horizontal Experience Progression Pipeline -->
+                <div class="exp-pipeline-wrap glass-card reveal-up">
+                    <div class="exp-pipeline-header">
+                        <span class="exp-pipeline-title"><i class="fas fa-route text-cyan"></i>&nbsp; CAREER PROGRESSION PIPELINE</span>
+                        <span class="exp-pipeline-status" id="pipelineActiveLabel"><i class="fas fa-circle-notch fa-spin" style="font-size:0.65rem;margin-right:6px;"></i>ACTIVE MISSION: MIS-00 (CLASSIFIED)</span>
+                    </div>
+                    <div class="exp-pipeline-scroll">
+                        <div class="exp-pipeline-container">
+                            <div class="exp-pipeline-track">
+                                <div class="exp-pipeline-fill" id="pipelineProgressFill"></div>
+                            </div>
+                            
+                            <!-- Timeline Nodes Chronologically -->
+                            <div class="exp-pipeline-node" data-mission="4" title="Techplement (Aug 2024 - Sep 2024)">
+                                <div class="exp-node-marker"><i class="fas fa-code"></i></div>
+                                <div class="exp-node-info">
+                                    <span class="exp-node-year">AUG 2024</span>
+                                    <span class="exp-node-company">Techplement</span>
+                                </div>
+                            </div>
+
+                            <div class="exp-pipeline-node" data-mission="3" title="Zidio Development (Jun 2025 - Aug 2025)">
+                                <div class="exp-node-marker"><i class="fas fa-layer-group"></i></div>
+                                <div class="exp-node-info">
+                                    <span class="exp-node-year">JUN 2025</span>
+                                    <span class="exp-node-company">Zidio</span>
+                                </div>
+                            </div>
+
+                            <div class="exp-pipeline-node" data-mission="2" title="Edunet Foundation (Aug 2025 - Sep 2025)">
+                                <div class="exp-node-marker"><i class="fas fa-terminal"></i></div>
+                                <div class="exp-node-info">
+                                    <span class="exp-node-year">AUG 2025</span>
+                                    <span class="exp-node-company">Edunet</span>
+                                </div>
+                            </div>
+
+                            <div class="exp-pipeline-node" data-mission="1" title="Springer Capital (Oct 2025 - Dec 2025)">
+                                <div class="exp-node-marker"><i class="fas fa-chart-line"></i></div>
+                                <div class="exp-node-info">
+                                    <span class="exp-node-year">OCT 2025</span>
+                                    <span class="exp-node-company">Springer</span>
+                                </div>
+                            </div>
+
+                            <div class="exp-pipeline-node" data-mission="1" title="RoboTech (Feb 2026 - Jul 2026)">
+                                <div class="exp-node-marker"><i class="fas fa-server"></i></div>
+                                <div class="exp-node-info">
+                                    <span class="exp-node-year">FEB 2026</span>
+                                    <span class="exp-node-company">RoboTech</span>
+                                </div>
+                            </div>
+
+                            <div class="exp-pipeline-node active" data-mission="0" title="Active Internship (Present)">
+                                <div class="exp-node-marker active-pulse"><i class="fas fa-shield-alt"></i></div>
+                                <div class="exp-node-info">
+                                    <span class="exp-node-year">PRESENT</span>
+                                    <span class="exp-node-company">[ CLASSIFIED ]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main AI Operations Center Grid -->
+                <div class="mission-ops-grid">
+                    
+                    <!-- Left Column: Mission Chips List -->
+                    <div class="mission-chips-panel glass-card reveal-up">
+                        <div class="panel-cyber-header">
+                            <span class="cyber-dot-red"></span>
+                            <span class="cyber-dot-yellow"></span>
+                            <span class="cyber-dot-green"></span>
+                            <span class="panel-cyber-title">// SELECT_MISSION_DOSSIER</span>
+                        </div>
+                        
+                        <div class="chips-scroll-container">
+                            <!-- Chip 0 — ACTIVE (Classified) -->
+                            <div class="mission-chip active" data-mission="0">
+                                <div class="chip-glow-border"></div>
+                                <div class="chip-badge" style="--badge-color: #00F5FF">00</div>
+                                <div class="chip-content">
+                                    <div class="chip-top">
+                                        <span class="chip-id">MIS-00 // CLASSIFIED</span>
+                                        <span class="chip-status status-active">ACTIVE</span>
+                                    </div>
+                                    <h4 class="chip-role">Intern — Will Update Soon</h4>
+                                    <div class="chip-company"><i class="fas fa-lock"></i> Company — Will Update Soon</div>
+                                    <div class="chip-date"><i class="far fa-calendar-alt"></i> 2026 – Present</div>
+                                </div>
+                                <div class="chip-scanline"></div>
+                            </div>
+
+                            <!-- Chip 1 — COMPLETED (RoboTech) -->
+                            <div class="mission-chip" data-mission="1">
+                                <div class="chip-glow-border"></div>
+                                <div class="chip-badge" style="--badge-color: #00F5FF">01</div>
+                                <div class="chip-content">
+                                    <div class="chip-top">
+                                        <span class="chip-id">MIS-01 // ROBOTECH</span>
+                                        <span class="chip-status status-completed">COMPLETED</span>
+                                    </div>
+                                    <h4 class="chip-role">Back End Developer</h4>
+                                    <div class="chip-company"><i class="fas fa-building"></i> RoboTech</div>
+                                    <div class="chip-date"><i class="far fa-calendar-alt"></i> Feb 2026 – Jul 2026</div>
+                                </div>
+                                <div class="chip-scanline"></div>
+                            </div>
+
+                            <!-- Chip 2 -->
+                            <div class="mission-chip" data-mission="2">
+                                <div class="chip-glow-border"></div>
+                                <div class="chip-badge" style="--badge-color: #00F5FF">02</div>
+                                <div class="chip-content">
+                                    <div class="chip-top">
+                                        <span class="chip-id">MIS-02 // SPRINGER</span>
+                                        <span class="chip-status status-completed">COMPLETED</span>
+                                    </div>
+                                    <h4 class="chip-role">Software Engineer Intern</h4>
+                                    <div class="chip-company"><i class="fas fa-building"></i> Springer Capital</div>
+                                    <div class="chip-date"><i class="far fa-calendar-alt"></i> Oct 2025 – Dec 2025</div>
+                                </div>
+                                <div class="chip-scanline"></div>
+                            </div>
+
+                            <!-- Chip 3 -->
+                            <div class="mission-chip" data-mission="3">
+                                <div class="chip-glow-border"></div>
+                                <div class="chip-badge" style="--badge-color: #FF00B8">03</div>
+                                <div class="chip-content">
+                                    <div class="chip-top">
+                                        <span class="chip-id">MIS-03 // EDUNET</span>
+                                        <span class="chip-status status-completed">COMPLETED</span>
+                                    </div>
+                                    <h4 class="chip-role">Software Engineer Intern</h4>
+                                    <div class="chip-company"><i class="fas fa-building"></i> Edunet Foundation</div>
+                                    <div class="chip-date"><i class="far fa-calendar-alt"></i> Aug 2025 – Sep 2025</div>
+                                </div>
+                                <div class="chip-scanline"></div>
+                            </div>
+
+                            <!-- Chip 4 -->
+                            <div class="mission-chip" data-mission="4">
+                                <div class="chip-glow-border"></div>
+                                <div class="chip-badge" style="--badge-color: #8A2BE2">04</div>
+                                <div class="chip-content">
+                                    <div class="chip-top">
+                                        <span class="chip-id">MIS-04 // ZIDIO</span>
+                                        <span class="chip-status status-completed">COMPLETED</span>
+                                    </div>
+                                    <h4 class="chip-role">Software Engineer Intern</h4>
+                                    <div class="chip-company"><i class="fas fa-building"></i> Zidio Development</div>
+                                    <div class="chip-date"><i class="far fa-calendar-alt"></i> Jun 2025 – Aug 2025</div>
+                                </div>
+                                <div class="chip-scanline"></div>
+                            </div>
+
+                            <!-- Chip 5 -->
+                            <div class="mission-chip" data-mission="5">
+                                <div class="chip-glow-border"></div>
+                                <div class="chip-badge" style="--badge-color: #3A8DFF">05</div>
+                                <div class="chip-content">
+                                    <div class="chip-top">
+                                        <span class="chip-id">MIS-05 // TECHPLEMENT</span>
+                                        <span class="chip-status status-completed">COMPLETED</span>
+                                    </div>
+                                    <h4 class="chip-role">Software Development Intern</h4>
+                                    <div class="chip-company"><i class="fas fa-building"></i> Techplement</div>
+                                    <div class="chip-date"><i class="far fa-calendar-alt"></i> Aug 2024 – Sep 2024</div>
+                                </div>
+                                <div class="chip-scanline"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Classified Mission Dossier Panel -->
+                    <div class="mission-dossier-panel glass-card reveal-up" id="missionDossierPanel">
+                        <div class="dossier-cyber-frame">
+                            <div class="dossier-corner dossier-corner-tl"></div>
+                            <div class="dossier-corner dossier-corner-tr"></div>
+                            <div class="dossier-corner dossier-corner-bl"></div>
+                            <div class="dossier-corner dossier-corner-br"></div>
+
+                            <!-- Holographic Scanline Overlay -->
+                            <div class="dossier-holo-sweep" id="dossierHoloSweep"></div>
+
+                            <!-- Dynamic Content Container -->
+                            <div class="dossier-content-wrapper" id="dossierContentWrapper">
+                                <!-- Populated dynamically by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ PROJECTS SECTION ═══ -->
+        <section class="section projects-section" id="projects">
+            <div class="section-bg-grid"></div>
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">[ OPERATIONS.DB ]</div>
+                    <h2 class="section-title">Featured <span class="text-cyan">Projects</span></h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="projects-grid">
+                    <!-- 1: Chainmuse -->
+                    <div class="project-card glass-card reveal-up tilt-card" data-delay="0">
+                        <div class="project-card-glow" style="--project-color: #8A2BE2"></div>
+                        <div class="project-header">
+                            <div class="project-icon-wrap" style="--project-color: #8A2BE2">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/sahoo-tech/HACKHAZARD-PROJECT-2025" target="_blank" class="proj-link" title="GitHub"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Chainmuse</h3>
+                        <p class="project-desc">A Web3 platform empowering creators with AI-powered tools and blockchain integration. Features AI chat, content creation, smart contract frameworks, voice recognition, DAOs, and royalty tracking.</p>
+                        <div class="project-tags">
+                            <span class="proj-tag" style="--tag-color: #8A2BE2">Web3</span>
+                            <span class="proj-tag" style="--tag-color: #8A2BE2">Blockchain</span>
+                            <span class="proj-tag" style="--tag-color: #8A2BE2">AI</span>
+                            <span class="proj-tag" style="--tag-color: #8A2BE2">Smart Contracts</span>
+                        </div>
+                    </div>
+
+                    <!-- 2: Code-Analyzer -->
+                    <div class="project-card glass-card reveal-up tilt-card" data-delay="100">
+                        <div class="project-card-glow" style="--project-color: #00F5FF"></div>
+                        <div class="project-header">
+                            <div class="project-icon-wrap" style="--project-color: #00F5FF">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/sahoo-tech/Code-Analyzer" target="_blank" class="proj-link" title="GitHub"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Code-Analyzer</h3>
+                        <p class="project-desc">Enterprise-level Python code analysis tool leveraging AST parsing, metrics calculation, and AI integration. Detects vulnerabilities, design patterns, anti-patterns, and code smells with RAG-based semantic search.</p>
+                        <div class="project-tags">
+                            <span class="proj-tag" style="--tag-color: #00F5FF">Python</span>
+                            <span class="proj-tag" style="--tag-color: #00F5FF">AI</span>
+                            <span class="proj-tag" style="--tag-color: #00F5FF">AST Parsing</span>
+                            <span class="proj-tag" style="--tag-color: #00F5FF">RAG</span>
+                        </div>
+                    </div>
+
+                    <!-- 3: VIRALYTIX -->
+                    <div class="project-card glass-card reveal-up tilt-card" data-delay="200">
+                        <div class="project-card-glow" style="--project-color: #FF00B8"></div>
+                        <div class="project-header">
+                            <div class="project-icon-wrap" style="--project-color: #FF00B8">
+                                <i class="fas fa-virus"></i>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/sahoo-tech/VIRALYTIX-2" target="_blank" class="proj-link" title="GitHub"><i class="fab fa-github"></i></a>
+                                <a href="https://hackathon-project-egq7-217a8mxah-sahoo-techs-projects.vercel.app/" target="_blank" class="proj-link" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                        <h3 class="project-title">VIRALYTIX</h3>
+                        <p class="project-desc">Comprehensive platform for monitoring, analyzing, and predicting viral outbreaks using advanced AI, blockchain technology, and real-time data analysis for public health officials and researchers.</p>
+                        <div class="project-tags">
+                            <span class="proj-tag" style="--tag-color: #FF00B8">AI</span>
+                            <span class="proj-tag" style="--tag-color: #FF00B8">Blockchain</span>
+                            <span class="proj-tag" style="--tag-color: #FF00B8">Public Health</span>
+                            <span class="proj-tag" style="--tag-color: #FF00B8">Real-time</span>
+                        </div>
+                    </div>
+
+                    <!-- 4: Agritech Assistant -->
+                    <div class="project-card glass-card reveal-up tilt-card" data-delay="300">
+                        <div class="project-card-glow" style="--project-color: #3A8DFF"></div>
+                        <div class="project-header">
+                            <div class="project-icon-wrap" style="--project-color: #3A8DFF">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/sahoo-tech/Agritech-AI" target="_blank" class="proj-link" title="GitHub"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Agritech Assistant</h3>
+                        <p class="project-desc">Comprehensive agricultural assistance platform powered by AI and ML. Provides farmers with intelligent tools for crop management, disease detection, and farming optimization via a Python-based web application.</p>
+                        <div class="project-tags">
+                            <span class="proj-tag" style="--tag-color: #3A8DFF">Python</span>
+                            <span class="proj-tag" style="--tag-color: #3A8DFF">Machine Learning</span>
+                            <span class="proj-tag" style="--tag-color: #3A8DFF">AgriTech</span>
+                            <span class="proj-tag" style="--tag-color: #3A8DFF">AI</span>
+                        </div>
+                    </div>
+
+                    <!-- 5: AEGIS AI -->
+                    <div class="project-card glass-card reveal-up tilt-card" data-delay="400">
+                        <div class="project-card-glow" style="--project-color: #8A2BE2"></div>
+                        <div class="project-header">
+                            <div class="project-icon-wrap" style="--project-color: #8A2BE2">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/sahoo-tech/FRAUD-DETECTION-AI-DRIVEN-" target="_blank" class="proj-link" title="GitHub"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                        <h3 class="project-title">AEGIS AI</h3>
+                        <p class="project-desc">Sophisticated fraud detection system combining AI with rule-based analysis for real-time transaction monitoring and risk assessment. Uses Google's Gemini AI to identify fraudulent activities and analyze user behavior.</p>
+                        <div class="project-tags">
+                            <span class="proj-tag" style="--tag-color: #8A2BE2">Gemini AI</span>
+                            <span class="proj-tag" style="--tag-color: #8A2BE2">Fraud Detection</span>
+                            <span class="proj-tag" style="--tag-color: #8A2BE2">Python</span>
+                            <span class="proj-tag" style="--tag-color: #8A2BE2">Real-time</span>
+                        </div>
+                    </div>
+
+                    <!-- 6: Binance Trading Bot -->
+                    <div class="project-card glass-card reveal-up tilt-card" data-delay="500">
+                        <div class="project-card-glow" style="--project-color: #F0B90B"></div>
+                        <div class="project-header">
+                            <div class="project-icon-wrap" style="--project-color: #F0B90B">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/sahoo-tech/BINANCE-FUTURES-BOT" target="_blank" class="proj-link" title="GitHub"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Binance Futures Trading Bot</h3>
+                        <p class="project-desc">Fully CLI-driven, Python-powered algorithmic trading engine built for Binance USDT-M Futures. Designed for developers experimenting with algorithmic strategies and advanced traders needing terminal-level control.</p>
+                        <div class="project-tags">
+                            <span class="proj-tag" style="--tag-color: #F0B90B">Python</span>
+                            <span class="proj-tag" style="--tag-color: #F0B90B">Algorithmic Trading</span>
+                            <span class="proj-tag" style="--tag-color: #F0B90B">Binance API</span>
+                            <span class="proj-tag" style="--tag-color: #F0B90B">CLI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="projects-cta reveal-up">
+                    <a href="https://github.com/sahoo-tech" target="_blank" class="cta-btn cta-primary" id="viewAllProjects">
+                        <i class="fab fa-github"></i> View All on GitHub
+                        <span class="btn-glow"></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ CERTIFICATIONS SECTION ═══ -->
+        <section class="section certifications-section" id="certifications">
+            <div class="section-bg-grid"></div>
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">[ CLEARANCE.LEVEL ]</div>
+                    <h2 class="section-title">Certifications <span class="text-cyan">&amp; Awards</span></h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="certs-grid">
+                    <div class="cert-card glass-card reveal-up">
+                        <div class="cert-hologram">
+                            <div class="cert-icon-wrap">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="cert-scan"></div>
+                        </div>
+                        <div class="cert-info">
+                            <div class="cert-issuer text-cyan"><i class="fas fa-university"></i> IIT Guwahati</div>
+                            <h3 class="cert-name">Data Science and Machine Learning</h3>
+                            <div class="cert-meta">
+                                <span class="cert-duration"><i class="fas fa-clock"></i> 4-week program</span>
+                                <span class="cert-badge-text">VERIFIED</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cert-card glass-card reveal-up" data-delay="100">
+                        <div class="cert-hologram">
+                            <div class="cert-icon-wrap">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="cert-scan"></div>
+                        </div>
+                        <div class="cert-info">
+                            <div class="cert-issuer text-violet"><i class="fas fa-laptop-code"></i> HackerRank</div>
+                            <h3 class="cert-name">Software Engineer Certification</h3>
+                            <div class="cert-meta">
+                                <span class="cert-duration"><i class="fas fa-check-circle"></i> HackerRank Platform</span>
+                                <span class="cert-badge-text">VERIFIED</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══ GITHUB INTELLIGENCE CENTER ═══ -->
+        <section class="section github-section" id="github">
+            <div class="gh-bg-grid"></div>
+            <div class="gh-particles" id="ghParticles"></div>
+            <canvas class="gh-canvas" id="ghCanvas"></canvas>
+
+            <div class="container">
+                <!-- Header -->
+                <div class="section-header">
+                    <div class="section-tag">[ SOURCE.CODE.ARCHIVE ]</div>
+                    <h2 class="section-title">SOURCE CODE <span class="text-cyan">ARCHIVE</span></h2>
+                    <p class="gh-subtitle">Live GitHub Intelligence Synchronized · <span class="text-violet">@sahoo-tech</span></p>
+                    <div class="section-divider"></div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="gh-stats-grid">
+                    <div class="gh-stat-card glass-card reveal-up" data-delay="0">
+                        <div class="gh-stat-icon"><i class="fas fa-code-branch"></i></div>
+                        <div class="gh-stat-count" data-target="30">0</div>
+                        <div class="gh-stat-label">Public Repositories</div>
+                        <div class="gh-stat-glow"></div>
+                    </div>
+                    <div class="gh-stat-card glass-card reveal-up" data-delay="80">
+                        <div class="gh-stat-icon"><i class="fas fa-code-commit"></i></div>
+                        <div class="gh-stat-count" data-target="500">0</div>
+                        <div class="gh-stat-label">Total Commits</div>
+                        <div class="gh-stat-glow"></div>
+                    </div>
+                    <div class="gh-stat-card glass-card reveal-up" data-delay="160">
+                        <div class="gh-stat-icon"><i class="fas fa-star"></i></div>
+                        <div class="gh-stat-count" data-target="48">0</div>
+                        <div class="gh-stat-label">Stars Earned</div>
+                        <div class="gh-stat-glow"></div>
+                    </div>
+                    <div class="gh-stat-card glass-card reveal-up" data-delay="240">
+                        <div class="gh-stat-icon"><i class="fas fa-code-pull-request"></i></div>
+                        <div class="gh-stat-count" data-target="85">0</div>
+                        <div class="gh-stat-label">Pull Requests</div>
+                        <div class="gh-stat-glow"></div>
+                    </div>
+                    <div class="gh-stat-card glass-card reveal-up" data-delay="320">
+                        <div class="gh-stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="gh-stat-count" data-target="1000">0</div>
+                        <div class="gh-stat-label">Followers</div>
+                        <div class="gh-stat-sublabel" style="font-size:0.6rem; color:var(--text2); opacity:0.8; margin-top:2px;">(Incl. Professional Social Media)</div>
+                        <div class="gh-stat-glow"></div>
+                    </div>
+                    <div class="gh-stat-card glass-card reveal-up" data-delay="400">
+                        <div class="gh-stat-icon"><i class="fas fa-laptop-code"></i></div>
+                        <div class="gh-stat-count" data-target="8">0</div>
+                        <div class="gh-stat-label">Primary Languages</div>
+                        <div class="gh-stat-glow"></div>
+                    </div>
+                </div>
+
+                <!-- Language Matrix -->
+                <div class="gh-matrix-wrap reveal-up">
+                    <div class="gh-subsection-title">
+                        <span class="section-tag">[ LANGUAGE.MATRIX ]</span>
+                        <h3>Technology <span class="text-cyan">Ecosystem</span></h3>
+                    </div>
+                    <div class="gh-lang-matrix" id="ghLangMatrix">
+                        <!-- Hexagonal tech nodes rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- AI Search Terminal + Filter -->
+                <div class="gh-search-wrap reveal-up">
+                    <div class="gh-terminal-search glass-card">
+                        <div class="gh-terminal-bar">
+                            <span class="terminal-dot td-red"></span>
+                            <span class="terminal-dot td-yellow"></span>
+                            <span class="terminal-dot td-green"></span>
+                            <span class="gh-terminal-label">search.exe — SOURCE DATABASE</span>
+                        </div>
+                        <div class="gh-search-row">
+                            <span class="gh-search-prompt">root@sahoo:~$</span>
+                            <input type="text" id="ghSearchInput" class="gh-search-input" placeholder="SEARCH SOURCE DATABASE...">
+                            <span class="gh-search-cursor">█</span>
+                        </div>
+                    </div>
+                    <div class="gh-filters" id="ghFilters">
+                        <button class="gh-filter active" data-filter="all">All</button>
+                        <button class="gh-filter" data-filter="ai">AI / ML</button>
+                        <button class="gh-filter" data-filter="backend">Backend</button>
+                        <button class="gh-filter" data-filter="fullstack">Full Stack</button>
+                        <button class="gh-filter" data-filter="web3">Web3</button>
+                        <button class="gh-filter" data-filter="security">Security</button>
+                        <button class="gh-filter" data-filter="tools">Tools</button>
+                    </div>
+                </div>
+
+                <!-- Repository Explorer -->
+                <div class="gh-subsection-title reveal-up">
+                    <span class="section-tag">[ AI.REPOSITORY.EXPLORER ]</span>
+                    <h3>Repository <span class="text-cyan">Dossier</span></h3>
+                </div>
+                <div class="gh-repos-grid" id="ghReposGrid">
+                    <!-- Repo cards rendered by JS -->
+                </div>
+
+                <!-- Contribution Galaxy -->
+                <div class="gh-contribution-wrap reveal-up">
+                    <div class="gh-subsection-title">
+                        <span class="section-tag">[ CONTRIBUTION.GALAXY ]</span>
+                        <h3>Contribution <span class="text-cyan">Constellation</span></h3>
+                    </div>
+                    <div class="gh-galaxy-container glass-card" id="ghGalaxy">
+                        <canvas id="ghGalaxyCanvas"></canvas>
+                        <div class="gh-galaxy-tooltip" id="ghGalaxyTooltip"></div>
+                    </div>
+                    <div class="gh-activity-legend">
+                        <span class="gh-legend-label">Less</span>
+                        <span class="gh-legend-box" style="--lg-opacity:0.1"></span>
+                        <span class="gh-legend-box" style="--lg-opacity:0.3"></span>
+                        <span class="gh-legend-box" style="--lg-opacity:0.55"></span>
+                        <span class="gh-legend-box" style="--lg-opacity:0.8"></span>
+                        <span class="gh-legend-box" style="--lg-opacity:1"></span>
+                        <span class="gh-legend-label">More</span>
+                    </div>
+                </div>
+
+                <!-- Futuristic Terminal Panel -->
+                <div class="gh-cmd-terminal-wrap reveal-up">
+                    <div class="gh-subsection-title">
+                        <span class="section-tag">[ SYSTEM.TERMINAL ]</span>
+                        <h3>Command <span class="text-cyan">Interface</span></h3>
+                    </div>
+                    <div class="gh-cmd-terminal glass-card">
+                        <div class="gh-terminal-bar">
+                            <span class="terminal-dot td-red"></span>
+                            <span class="terminal-dot td-yellow"></span>
+                            <span class="terminal-dot td-green"></span>
+                            <span class="gh-terminal-label">AI-OS v3.7 — sahoo-tech@github</span>
+                        </div>
+                        <div class="gh-cmd-output" id="ghCmdOutput"></div>
+                        <div class="gh-cmd-input-row">
+                            <span class="gh-cmd-prompt">root@sahoo:~$</span>
+                            <input type="text" id="ghCmdInput" class="gh-cmd-input" placeholder="Type 'help' to begin...">
+                            <span class="gh-cmd-cursor">█</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="projects-cta reveal-up" style="margin-top:3rem;">
+                    <a href="https://github.com/sahoo-tech" target="_blank" class="cta-btn cta-primary" id="viewGithubProfile">
+                        <i class="fab fa-github"></i> Explore Full Profile
+                        <span class="btn-glow"></span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Project Dossier Modal -->
+            <div class="gh-dossier-overlay" id="ghDossierOverlay">
+                <div class="gh-dossier glass-card" id="ghDossier">
+                    <button class="gh-dossier-close" id="ghDossierClose"><i class="fas fa-times"></i></button>
+                    <div class="gh-dossier-content" id="ghDossierContent"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ CONTACT SECTION ═══ -->
+
+        <section class="section contact-section" id="contact">
+            <div class="section-bg-grid"></div>
+            <!-- Floating particles -->
+            <div class="ct-particles" id="ctParticles"></div>
+
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-tag">[ COMM.TERMINAL ]</div>
+                    <h2 class="section-title">AI <span class="text-cyan">Command</span> Center</h2>
+                    <p class="gh-subtitle">Encrypted Transmission Channel · <span class="text-violet">Secure Protocol v2.0</span></p>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div class="contact-grid">
+                    <!-- Left Info Panel (unchanged) -->
+                    <div class="contact-info-panel reveal-left">
+                        <div class="glass-card contact-info-card">
+                            <div class="card-header-bar">
+                                <span class="dot dot-red"></span>
+                                <span class="dot dot-yellow"></span>
+                                <span class="dot dot-green"></span>
+                                <span class="card-title-bar">contact.cfg</span>
+                            </div>
+                            <div class="contact-items">
+                                <div class="contact-item">
+                                    <div class="contact-item-icon" style="--contact-color: #00F5FF">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="contact-item-text">
+                                        <div class="contact-item-label">EMAIL</div>
+                                        <a href="mailto:ss9830872697@gmail.com" class="contact-item-value">ss9830872697@gmail.com</a>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-item-icon" style="--contact-color: #3A8DFF">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div class="contact-item-text">
+                                        <div class="contact-item-label">PHONE</div>
+                                        <a href="tel:+918777651702" class="contact-item-value">+91 87776 51702</a>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-item-icon" style="--contact-color: #8A2BE2">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="contact-item-text">
+                                        <div class="contact-item-label">LOCATION</div>
+                                        <p class="contact-item-value">11 NK Ghosal Road, Kasba<br>Kolkata – 700042</p>
+                                    </div>
+                                </div>
+
+                                <!-- Response Time Badge -->
+                                <div class="ct-response-badge">
+                                    <div class="ct-pulse-ring"></div>
+                                    <i class="fas fa-clock"></i>
+                                    <div>
+                                        <div class="ct-badge-title">RESPONSE TIME</div>
+                                        <div class="ct-badge-value">24–48 Business Hours</div>
+                                    </div>
+                                </div>
+
+                                <!-- Transmission Stats -->
+                                <div class="ct-stat-row">
+                                    <div class="ct-stat">
+                                        <div class="ct-stat-icon"><i class="fas fa-shield-alt"></i></div>
+                                        <div>
+                                            <div class="ct-stat-label">ENCRYPTION</div>
+                                            <div class="ct-stat-val">AES-256</div>
+                                        </div>
+                                    </div>
+                                    <div class="ct-stat">
+                                        <div class="ct-stat-icon"><i class="fas fa-signal"></i></div>
+                                        <div>
+                                            <div class="ct-stat-label">CHANNEL</div>
+                                            <div class="ct-stat-val">SECURE</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contact-social-links">
+                                <a href="https://github.com/sahoo-tech" target="_blank" class="contact-social-btn" id="contactGithub">
+                                    <i class="fab fa-github"></i> GitHub
+                                </a>
+                                <a href="https://www.linkedin.com/in/sayantan-sahoo-8482a62a0" target="_blank" class="contact-social-btn" id="contactLinkedin">
+                                    <i class="fab fa-linkedin"></i> LinkedIn
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Cyberpunk Communication Terminal -->
+                    <div class="contact-form-panel reveal-right">
+                        <div class="glass-card contact-form-card ct-terminal-card">
+                            <div class="card-header-bar">
+                                <span class="dot dot-red"></span>
+                                <span class="dot dot-yellow"></span>
+                                <span class="dot dot-green"></span>
+                                <span class="card-title-bar">transmission.exe — SECURE CHANNEL</span>
+                                <span class="ct-header-status"><span class="ct-status-dot"></span>ONLINE</span>
+                            </div>
+
+                            <!-- Scanline overlay -->
+                            <div class="ct-scanlines"></div>
+
+                            <!-- Form State -->
+                            <form class="contact-form ct-form" id="contactForm" novalidate>
+                                <div class="ct-form-row">
+                                    <div class="form-field ct-field">
+                                        <label class="form-label" for="contactName">
+                                            <i class="fas fa-user"></i> FULL NAME <span class="ct-required">*</span>
+                                        </label>
+                                        <input type="text" id="contactName" name="name" placeholder="Your full name" required autocomplete="name">
+                                        <div class="field-border"></div>
+                                        <div class="ct-field-error" id="errName"></div>
+                                    </div>
+                                    <div class="form-field ct-field">
+                                        <label class="form-label" for="contactEmail">
+                                            <i class="fas fa-at"></i> EMAIL ADDRESS <span class="ct-required">*</span>
+                                        </label>
+                                        <input type="email" id="contactEmail" name="email" placeholder="your@email.com" required autocomplete="email">
+                                        <div class="field-border"></div>
+                                        <div class="ct-field-error" id="errEmail"></div>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-row">
+                                    <div class="form-field ct-field">
+                                        <label class="form-label" for="contactOrg">
+                                            <i class="fas fa-building"></i> ORGANIZATION <span class="ct-optional">(optional)</span>
+                                        </label>
+                                        <input type="text" id="contactOrg" name="organization" placeholder="Company / Institute" autocomplete="organization">
+                                        <div class="field-border"></div>
+                                    </div>
+                                    <div class="form-field ct-field">
+                                        <label class="form-label" for="contactCategory">
+                                            <i class="fas fa-tag"></i> CATEGORY <span class="ct-required">*</span>
+                                        </label>
+                                        <div class="ct-select-wrap">
+                                            <select id="contactCategory" name="category" required>
+                                                <option value="" disabled selected>Select category...</option>
+                                                <option value="General Inquiry">General Inquiry</option>
+                                                <option value="Internship Opportunity">Internship Opportunity</option>
+                                                <option value="Job Opportunity">Job Opportunity</option>
+                                                <option value="Collaboration">Collaboration</option>
+                                                <option value="Freelance">Freelance</option>
+                                                <option value="Open Source">Open Source</option>
+                                                <option value="Speaking">Speaking</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <i class="fas fa-chevron-down ct-select-arrow"></i>
+                                        </div>
+                                        <div class="field-border"></div>
+                                        <div class="ct-field-error" id="errCategory"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-field ct-field">
+                                    <label class="form-label" for="contactSubject">
+                                        <i class="fas fa-terminal"></i> SUBJECT <span class="ct-required">*</span>
+                                    </label>
+                                    <input type="text" id="contactSubject" name="subject" placeholder="Transmission subject" required>
+                                    <div class="field-border"></div>
+                                    <div class="ct-field-error" id="errSubject"></div>
+                                </div>
+
+                                <div class="form-field ct-field">
+                                    <label class="form-label" for="contactMessage">
+                                        <i class="fas fa-satellite-dish"></i> MESSAGE <span class="ct-required">*</span>
+                                    </label>
+                                    <textarea id="contactMessage" name="message" placeholder="Enter your transmission payload..." rows="5" required></textarea>
+                                    <div class="field-border"></div>
+                                    <div class="ct-field-error" id="errMessage"></div>
+                                    <div class="ct-char-count"><span id="msgCharCount">0</span> / 2000</div>
+                                </div>
+
+                                <button type="submit" class="cta-btn cta-primary btn-full ct-submit-btn" id="sendMessageBtn">
+                                    <i class="fas fa-satellite-dish"></i>
+                                    <span id="submitBtnText">INITIATE TRANSMISSION</span>
+                                    <span class="btn-glow"></span>
+                                </button>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══ FOOTER ═══ -->
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Sayantan Sahoo. All rights reserved.</p>
-            <p>Built with passion &amp; code</p>
+        <div class="footer-bg"></div>
+        <div class="footer-content container">
+            <div class="footer-left">
+                <div class="footer-logo">
+                    <span class="logo-ss">SS</span>
+                </div>
+                <div class="footer-tagline">Building the future, one line at a time.</div>
+            </div>
+            <div class="footer-center">
+                <div class="footer-terminal">
+                    <span class="terminal-prompt">root@sahoo:~$</span>
+                    <span class="terminal-cmd" id="footerCmd">echo "Thanks for visiting!"</span>
+                    <span class="terminal-blink">█</span>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+                    <a href="https://github.com/sahoo-tech" target="_blank" id="footerGithub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/sayantan-sahoo-8482a62a0" target="_blank" id="footerLinkedin"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:ss9830872697@gmail.com" id="footerEmail"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-divider"></div>
+            <p>&copy; 2025 Sayantan Sahoo. All rights reserved. | Built with <span class="text-cyan">passion</span> &amp; <span class="text-violet">code</span></p>
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="app.js"></script>
+
+    <!-- ═══ TRANSMISSION OVERLAY (body-level — escapes all parent transforms) ═══ -->
+    <div class="ct-transmission-overlay" id="ctTransmissionOverlay">
+        <!-- Background canvas (digital rain) -->
+        <canvas id="ctTxCanvas"></canvas>
+        <!-- Warp particle layer -->
+        <div class="ct-warp-wrap" id="ctWarpWrap"></div>
+        <!-- HUD corner brackets -->
+        <div class="ct-hud-corner tl"></div>
+        <div class="ct-hud-corner tr"></div>
+        <div class="ct-hud-corner bl"></div>
+        <div class="ct-hud-corner br"></div>
+        <!-- Scanning beam -->
+        <div class="ct-scan-beam"></div>
+        <!-- Center content -->
+        <div class="ct-transmission-inner">
+            <div class="ct-tx-header">
+                <div class="ct-tx-spinner">
+                    <div class="ct-tx-ring"></div>
+                    <div class="ct-tx-ring-2"></div>
+                    <div class="ct-tx-ring-3"></div>
+                    <div class="ct-tx-pulse"></div>
+                    <i class="fas fa-satellite-dish ct-tx-icon"></i>
+                </div>
+                <div class="ct-tx-title">TRANSMISSION IN PROGRESS</div>
+                <div class="ct-tx-id-live" id="ctTxIdLive">TX-INIT...</div>
+            </div>
+            <div class="ct-tx-log" id="ctTxLog"></div>
+            <div class="ct-tx-progress">
+                <div class="ct-tx-progress-bar" id="ctTxProgressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ SUCCESS SCREEN (body-level) ═══ -->
+    <div class="ct-success-screen" id="ctSuccessScreen">
+        <div class="ct-success-glow"></div>
+        <div class="ct-success-icon">
+            <div class="ct-success-ring"></div>
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="ct-success-title">TRANSMISSION SUCCESSFUL</div>
+        <div class="ct-success-panel glass-card">
+            <div class="ct-success-row">
+                <span class="ct-success-label">TRANSMISSION ID</span>
+                <span class="ct-success-val text-cyan" id="ctSuccessTxId">—</span>
+            </div>
+            <div class="ct-success-row">
+                <span class="ct-success-label">DELIVERY STATUS</span>
+                <span class="ct-success-val" style="color:#28CA41"><i class="fas fa-circle" style="font-size:0.5rem;margin-right:6px"></i>DELIVERED</span>
+            </div>
+            <div class="ct-success-row">
+                <span class="ct-success-label">CHANNEL</span>
+                <span class="ct-success-val">ENCRYPTED · AES-256</span>
+            </div>
+            <div class="ct-success-row">
+                <span class="ct-success-label">ESTIMATED RESPONSE</span>
+                <span class="ct-success-val">24–48 Business Hours</span>
+            </div>
+        </div>
+        <p class="ct-success-note">A confirmation has been sent to your email address. The command center will respond within the estimated window.</p>
+        <button class="cta-btn cta-primary ct-return-btn" id="ctReturnBtn">
+            <i class="fas fa-arrow-left"></i> Return to Command Center
+            <span class="btn-glow"></span>
+        </button>
+    </div>
+
 </body>
 </html>
