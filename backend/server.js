@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════════════════
    PORTFOLIO — CYBERPUNK CONTACT TERMINAL BACKEND
-   Node.js + Express | Nodemailer | Rate Limiting | Validation
+   Node.js + Express | Resend API | Nodemailer Fallback
+   Rate Limiting | Validation
    ═══════════════════════════════════════════════════════════ */
 
 require('dotenv').config();
@@ -8,6 +9,7 @@ const express    = require('express');
 const cors       = require('cors');
 const rateLimit  = require('express-rate-limit');
 const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const { body, validationResult } = require('express-validator');
 
 const app  = express();
@@ -48,21 +50,39 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('/api/test-email', async (req, res) => {
-  try {
-    const tp = getTransporter();
-    await tp.verify();
-    res.json({
-      success: true,
-      message: 'SMTP credentials & Gmail connection verified successfully!',
-      user: process.env.SMTP_USER ? process.env.SMTP_USER.trim() : 'NOT SET'
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      error: err.message,
-      userConfigured: !!process.env.SMTP_USER,
-      passConfigured: !!process.env.SMTP_PASS
-    });
+  const mode = process.env.RESEND_API_KEY ? 'resend' : 'smtp';
+  if (mode === 'resend') {
+    try {
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      // Just validate the key exists & SDK initialises — no actual send
+      res.json({
+        success: true,
+        mode: 'resend',
+        message: 'Resend API key is configured.',
+        from: process.env.RESEND_FROM || 'NOT SET'
+      });
+    } catch (err) {
+      res.status(500).json({ success: false, mode: 'resend', error: err.message });
+    }
+  } else {
+    try {
+      const tp = getSmtpTransporter();
+      await tp.verify();
+      res.json({
+        success: true,
+        mode: 'smtp',
+        message: 'SMTP credentials & Gmail connection verified successfully!',
+        user: process.env.SMTP_USER ? process.env.SMTP_USER.trim() : 'NOT SET'
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        mode: 'smtp',
+        error: err.message,
+        userConfigured: !!process.env.SMTP_USER,
+        passConfigured: !!process.env.SMTP_PASS
+      });
+    }
   }
 });
 
@@ -75,33 +95,59 @@ const contactLimiter = rateLimit({
   message: { error: 'Too many transmission attempts. Please wait 15 minutes.' }
 });
 
-/* ── Nodemailer Transport ────────────────────────────────── */
-let transporter;
-function getTransporter() {
+/* ── Email Dispatch (Resend API or SMTP fallback) ────────── */
+
+// ── Resend (HTTP API — works on Render, no SMTP ports needed) ──
+async function sendViaResend(to, subject, html, replyTo) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const from   = process.env.RESEND_FROM || 'Sahoo-Tech Command Center <onboarding@resend.dev>';
+  const opts   = { from, to, subject, html };
+  if (replyTo) opts.replyTo = replyTo;
+  const { data, error } = await resend.emails.send(opts);
+  if (error) throw new Error(error.message || JSON.stringify(error));
+  return data;
+}
+
+// ── Nodemailer SMTP (local dev fallback when RESEND_API_KEY not set) ──
+let _smtpTransporter;
+function getSmtpTransporter() {
   const user = (process.env.SMTP_USER || '').trim();
   const pass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
-
   if (!user || !pass) {
-    console.error('[CRITICAL] Missing SMTP_USER or SMTP_PASS environment variables!');
-    throw new Error('SMTP credentials missing on server (SMTP_USER or SMTP_PASS not set)');
+    throw new Error('SMTP credentials missing (SMTP_USER or SMTP_PASS not set)');
   }
-
-  if (transporter) return transporter;
-
-  transporter = nodemailer.createTransport({
+  if (_smtpTransporter) return _smtpTransporter;
+  _smtpTransporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // SSL
-    auth: {
-      user: user,
-      pass: pass
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    auth: { user, pass },
+    tls: { rejectUnauthorized: false }
   });
+  return _smtpTransporter;
+}
 
-  return transporter;
+async function sendViaSMTP(to, subject, html, from, replyTo) {
+  const tp = getSmtpTransporter();
+  const smtpUser = (process.env.SMTP_USER || '').trim();
+  const opts = {
+    from:    from || `"Sahoo-Tech Command Center" <${smtpUser}>`,
+    to, subject, html
+  };
+  if (replyTo) opts.replyTo = replyTo;
+  return tp.sendMail(opts);
+}
+
+// ── Unified sendEmail — picks the right backend automatically ──
+async function sendEmail({ to, subject, html, replyTo }) {
+  if (process.env.RESEND_API_KEY) {
+    console.log(`[EMAIL] Using Resend API → ${to}`);
+    return sendViaResend(to, subject, html, replyTo);
+  }
+  console.log(`[EMAIL] Using SMTP fallback → ${to}`);
+  const smtpUser = (process.env.SMTP_USER || '').trim();
+  return sendViaSMTP(to, subject, html, `"Sahoo-Tech Command Center" <${smtpUser}>`, replyTo);
 }
 
 /* ── HTML Email Templates ────────────────────────────────── */
@@ -467,47 +513,43 @@ app.post('/api/contact', contactLimiter, contactValidators, async (req, res) => 
 
   // Send emails
   try {
-    const tp = getTransporter();
-    const ownerEmail  = (process.env.OWNER_EMAIL  || process.env.SMTP_USER || '').trim();
-    const replyToAddr = email;
+    const ownerEmail = (process.env.OWNER_EMAIL || process.env.SMTP_USER || '').trim();
 
-    let ownerSuccess = false;
+    let ownerSuccess  = false;
     let ownerErrorMsg = '';
 
-    // 1. Send notification to Owner
+    // 1. Notify owner
     try {
-      await tp.sendMail({
-        from:    `"Sahoo-Tech Command Center" <${process.env.SMTP_USER}>`,
+      await sendEmail({
         to:      ownerEmail,
-        replyTo: replyToAddr,
         subject: `[TX: ${txId}] ${category} — ${subject}`,
-        html:    buildOwnerEmail(data)
+        html:    buildOwnerEmail(data),
+        replyTo: email
       });
       ownerSuccess = true;
       console.log(`[✓] Owner notification sent to: ${ownerEmail}`);
     } catch (ownerErr) {
       ownerErrorMsg = ownerErr.message;
-      console.error(`[✗] Owner email dispatch failed:`, ownerErr);
+      console.error(`[✗] Owner email failed:`, ownerErr.message);
     }
 
-    // 2. Send confirmation to Sender
+    // 2. Confirm to sender
     let senderSuccess = false;
     try {
-      await tp.sendMail({
-        from:    `"Sahoo-Tech Command Center" <${process.env.SMTP_USER}>`,
+      await sendEmail({
         to:      email,
         subject: `Transmission Confirmed — ${txId}`,
         html:    buildSenderEmail(data)
       });
       senderSuccess = true;
-      console.log(`[✓] Confirmation auto-reply sent to sender: ${email}`);
+      console.log(`[✓] Confirmation sent to sender: ${email}`);
     } catch (senderErr) {
-      console.error(`[✗] Sender email dispatch failed to ${email}:`, senderErr.message);
+      console.error(`[✗] Sender confirmation failed:`, senderErr.message);
     }
 
     if (!ownerSuccess && !senderSuccess) {
       return res.status(500).json({
-        error: 'Email dispatch failed: ' + (ownerErrorMsg || 'Could not connect to SMTP server'),
+        error: 'Email dispatch failed: ' + (ownerErrorMsg || 'Unknown error'),
         txId
       });
     }
