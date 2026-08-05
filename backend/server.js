@@ -139,15 +139,31 @@ async function sendViaSMTP(to, subject, html, from, replyTo) {
   return tp.sendMail(opts);
 }
 
-// ── Unified sendEmail — picks the right backend automatically ──
+// ── Unified sendEmail — SMTP is PRIMARY, Resend as fallback ──
 async function sendEmail({ to, subject, html, replyTo }) {
-  if (process.env.RESEND_API_KEY) {
-    console.log(`[EMAIL] Using Resend API → ${to}`);
-    return sendViaResend(to, subject, html, replyTo);
+  const user = (process.env.SMTP_USER || '').trim();
+  const pass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
+
+  if (user && pass) {
+    try {
+      console.log(`[EMAIL] Attempting Primary SMTP dispatch → ${to}`);
+      return await sendViaSMTP(to, subject, html, `"Sahoo-Tech Command Center" <${user}>`, replyTo);
+    } catch (smtpErr) {
+      console.warn(`[EMAIL] Primary SMTP dispatch failed: ${smtpErr.message}`);
+      if (process.env.RESEND_API_KEY) {
+        console.log(`[EMAIL] Falling back to Resend API → ${to}`);
+        return await sendViaResend(to, subject, html, replyTo);
+      }
+      throw smtpErr;
+    }
   }
-  console.log(`[EMAIL] Using SMTP fallback → ${to}`);
-  const smtpUser = (process.env.SMTP_USER || '').trim();
-  return sendViaSMTP(to, subject, html, `"Sahoo-Tech Command Center" <${smtpUser}>`, replyTo);
+
+  if (process.env.RESEND_API_KEY) {
+    console.log(`[EMAIL] Using Resend API (SMTP credentials missing) → ${to}`);
+    return await sendViaResend(to, subject, html, replyTo);
+  }
+
+  throw new Error('No email dispatch mechanism configured (SMTP_USER/SMTP_PASS or RESEND_API_KEY missing)');
 }
 
 /* ── HTML Email Templates ────────────────────────────────── */
