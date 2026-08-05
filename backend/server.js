@@ -13,43 +13,53 @@ const { body, validationResult } = require('express-validator');
 const app  = express();
 const PORT = process.env.PORT || 5000;
 
+/* ── Trust Render's reverse proxy — MUST be set before any middleware ── */
+app.set('trust proxy', 1);
+
 /* ── CORS ─────────────────────────────────────────────────── */
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost,http://127.0.0.1')
   .split(',').map(o => o.trim());
 
 app.use(cors({
   origin: (origin, cb) => {
-    // Allow requests with no origin (Postman, curl, file://)
+    // Allow requests with no origin (Postman, curl, server-to-server)
     if (!origin) return cb(null, true);
     try {
       const hostname = new URL(origin).hostname;
-      // Allow localhost, explicitly configured origins, or any .xyz domain
       if (
-        ALLOWED_ORIGINS.some(o => origin.startsWith(o)) ||
-        hostname.endsWith('.xyz') ||
-        hostname === 'localhost' ||
-        hostname === '127.0.0.1'
+        hostname === 'localhost'        ||
+        hostname === '127.0.0.1'       ||
+        hostname.endsWith('.xyz')      ||
+        hostname.endsWith('.github.io')||
+        hostname.endsWith('.onrender.com') ||
+        ALLOWED_ORIGINS.some(o => origin.startsWith(o))
       ) {
         return cb(null, true);
       }
-    } catch (e) {
-      // Fallback check
+    } catch (_) {
       if (ALLOWED_ORIGINS.some(o => origin.startsWith(o))) return cb(null, true);
     }
     cb(new Error('CORS blocked: ' + origin));
   },
-  methods: ['POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type']
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Accept'],
+  optionsSuccessStatus: 200   // Some browsers (IE11) choke on 204
 }));
+
+/* ── Handle OPTIONS preflight explicitly ─────────────────── */
+app.options('*', cors());
+
 app.use(express.json({ limit: '20kb' }));
 
-/* ── Trust Render's reverse proxy (fixes express-rate-limit X-Forwarded-For error) */
-app.set('trust proxy', 1);
+/* ── Health Check (lets you confirm backend is alive) ───── */
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'online', timestamp: new Date().toISOString() });
+});
 
 /* ── Rate Limiting ───────────────────────────────────────── */
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,  // 15 minutes
-  max: 5,                      // max 5 requests per window per IP
+  max: 10,                     // max 10 requests per window per IP
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many transmission attempts. Please wait 15 minutes.' }
