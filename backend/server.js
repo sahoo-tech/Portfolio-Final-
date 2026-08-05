@@ -9,7 +9,12 @@ const express    = require('express');
 const cors       = require('cors');
 const rateLimit  = require('express-rate-limit');
 const nodemailer = require('nodemailer');
-const { Resend } = require('resend');
+let Resend;
+try {
+  Resend = require('resend').Resend;
+} catch (_) {
+  // Resend module optional
+}
 const { body, validationResult } = require('express-validator');
 
 const app  = express();
@@ -99,6 +104,7 @@ const contactLimiter = rateLimit({
 
 // ── Resend (HTTP API — works on Render, no SMTP ports needed) ──
 async function sendViaResend(to, subject, html, replyTo) {
+  if (!Resend) throw new Error('Resend package is not installed on this server');
   const resend = new Resend(process.env.RESEND_API_KEY);
   const from   = process.env.RESEND_FROM || 'Sahoo-Tech Command Center <onboarding@resend.dev>';
   const opts   = { from, to, subject, html };
