@@ -51,7 +51,18 @@ app.options('*', cors());
 
 app.use(express.json({ limit: '20kb' }));
 
-/* ── Health Check (lets you confirm backend is alive) ───── */
+/* ── Root & Health Check Endpoints ───────────────────────── */
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ONLINE',
+    service: 'Sahoo-Tech Cyberpunk Contact API',
+    endpoints: {
+      health: 'GET /api/health',
+      contact: 'POST /api/contact'
+    }
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'online', timestamp: new Date().toISOString() });
 });
@@ -68,14 +79,29 @@ const contactLimiter = rateLimit({
 /* ── Nodemailer Transport ────────────────────────────────── */
 let transporter;
 function getTransporter() {
+  const user = (process.env.SMTP_USER || '').trim();
+  const pass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
+
+  if (!user || !pass) {
+    console.error('[CRITICAL] Missing SMTP_USER or SMTP_PASS environment variables!');
+    throw new Error('SMTP credentials missing on server (SMTP_USER or SMTP_PASS not set)');
+  }
+
   if (transporter) return transporter;
+
   transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // SSL
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS   // Use an App Password for Gmail
+      user: user,
+      pass: pass
+    },
+    tls: {
+      rejectUnauthorized: false
     }
   });
+
   return transporter;
 }
 
@@ -443,8 +469,11 @@ app.post('/api/contact', contactLimiter, contactValidators, async (req, res) => 
   // Send emails
   try {
     const tp = getTransporter();
-    const ownerEmail  = process.env.OWNER_EMAIL  || process.env.SMTP_USER;
+    const ownerEmail  = (process.env.OWNER_EMAIL  || process.env.SMTP_USER || '').trim();
     const replyToAddr = email;
+
+    let ownerSuccess = false;
+    let ownerErrorMsg = '';
 
     // 1. Send notification to Owner
     try {
@@ -455,12 +484,15 @@ app.post('/api/contact', contactLimiter, contactValidators, async (req, res) => 
         subject: `[TX: ${txId}] ${category} — ${subject}`,
         html:    buildOwnerEmail(data)
       });
+      ownerSuccess = true;
       console.log(`[✓] Owner notification sent to: ${ownerEmail}`);
     } catch (ownerErr) {
-      console.error(`[✗] Owner email dispatch failed:`, ownerErr.message);
+      ownerErrorMsg = ownerErr.message;
+      console.error(`[✗] Owner email dispatch failed:`, ownerErr);
     }
 
     // 2. Send confirmation to Sender
+    let senderSuccess = false;
     try {
       await tp.sendMail({
         from:    `"Sahoo-Tech Command Center" <${process.env.SMTP_USER}>`,
@@ -468,21 +500,28 @@ app.post('/api/contact', contactLimiter, contactValidators, async (req, res) => 
         subject: `Transmission Confirmed — ${txId}`,
         html:    buildSenderEmail(data)
       });
+      senderSuccess = true;
       console.log(`[✓] Confirmation auto-reply sent to sender: ${email}`);
     } catch (senderErr) {
       console.error(`[✗] Sender email dispatch failed to ${email}:`, senderErr.message);
     }
 
-    return res.status(200).json({ success: true, txId });
+    if (!ownerSuccess && !senderSuccess) {
+      return res.status(500).json({
+        error: 'Email dispatch failed: ' + (ownerErrorMsg || 'Could not connect to SMTP server'),
+        txId
+      });
+    }
+
+    return res.status(200).json({ success: true, txId, ownerDelivered: ownerSuccess, senderDelivered: senderSuccess });
 
   } catch (err) {
-    console.error(`[✗] Email transport failed for ${txId}:`, err.message);
-    return res.status(500).json({ error: 'Email dispatch failed. Transmission logged.' });
+    console.error(`[✗] Email transport error for ${txId}:`, err);
+    return res.status(500).json({ error: 'Email dispatch failed: ' + err.message });
   }
 });
 
-/* ── Health Check ────────────────────────────────────────── */
-app.get('/health', (_, res) => res.json({ status: 'ONLINE', timestamp: new Date().toISOString() }));
+
 
 /* ── 404 ─────────────────────────────────────────────────── */
 app.use((_, res) => res.status(404).json({ error: 'Route not found' }));

@@ -908,17 +908,22 @@ document.addEventListener('DOMContentLoaded', () => {
       // Backend API URL (auto-detects local vs production)
       const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
         ? 'http://localhost:5000'
-        : 'https://portfolio-final-vtxa.onrender.com';
+        : 'https://portfolio-final-vtxa.onrender.com'; // no trailing slash
 
       fetch(`${API_BASE_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
         signal: AbortSignal.timeout ? AbortSignal.timeout(45000) : undefined
-      }).then(res => {
-        if (!res.ok) res.json().catch(() => {}).then(j => console.warn('Backend:', res.status, j));
+      }).then(async res => {
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          console.log('%c[ TRANSMISSION SUCCESS ]', 'color:#00F5FF;font-weight:bold;', data);
+        } else {
+          console.error('%c[ TRANSMISSION ERROR ]', 'color:#FF0055;font-weight:bold;', res.status, data);
+        }
       }).catch(err => {
-        console.warn('Backend not reachable (UI unaffected):', err.message);
+        console.warn('Backend not reachable:', err.message);
       });
     });
   }
