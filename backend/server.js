@@ -123,6 +123,8 @@ function getSmtpTransporter() {
     secure: false,
     requireTLS: true,
     auth: { user, pass },
+    connectionTimeout: 5000, // 5s connection timeout (prevents serverless hangs)
+    socketTimeout: 10000,     // 10s socket timeout
     tls: { rejectUnauthorized: false }
   });
   return _smtpTransporter;
