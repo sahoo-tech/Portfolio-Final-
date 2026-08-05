@@ -598,10 +598,14 @@ app.use((err, _, res, __) => {
 });
 
 /* ── Start ───────────────────────────────────────────────── */
-app.listen(PORT, () => {
-  console.log(`\n╔══════════════════════════════════════╗`);
-  console.log(`║  SAHOO-TECH CONTACT BACKEND ONLINE   ║`);
-  console.log(`║  Port : ${PORT.toString().padEnd(28)}║`);
-  console.log(`║  Mode : ${(process.env.NODE_ENV || 'development').padEnd(28)}║`);
-  console.log(`╚══════════════════════════════════════╝\n`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n╔══════════════════════════════════════╗`);
+    console.log(`║  SAHOO-TECH CONTACT BACKEND ONLINE   ║`);
+    console.log(`║  Port : ${PORT.toString().padEnd(28)}║`);
+    console.log(`║  Mode : ${(process.env.NODE_ENV || 'development').padEnd(28)}║`);
+    console.log(`╚══════════════════════════════════════╝\n`);
+  });
+}
+
+module.exports = app;
