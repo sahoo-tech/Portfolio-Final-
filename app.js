@@ -914,7 +914,7 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-        signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined
+        signal: AbortSignal.timeout ? AbortSignal.timeout(45000) : undefined
       }).then(res => {
         if (!res.ok) res.json().catch(() => {}).then(j => console.warn('Backend:', res.status, j));
       }).catch(err => {

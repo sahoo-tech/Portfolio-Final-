@@ -43,6 +43,9 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '20kb' }));
 
+/* ── Trust Render's reverse proxy (fixes express-rate-limit X-Forwarded-For error) */
+app.set('trust proxy', 1);
+
 /* ── Rate Limiting ───────────────────────────────────────── */
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,  // 15 minutes
