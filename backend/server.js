@@ -21,7 +21,21 @@ app.use(cors({
   origin: (origin, cb) => {
     // Allow requests with no origin (Postman, curl, file://)
     if (!origin) return cb(null, true);
-    if (ALLOWED_ORIGINS.some(o => origin.startsWith(o))) return cb(null, true);
+    try {
+      const hostname = new URL(origin).hostname;
+      // Allow localhost, explicitly configured origins, or any .xyz domain
+      if (
+        ALLOWED_ORIGINS.some(o => origin.startsWith(o)) ||
+        hostname.endsWith('.xyz') ||
+        hostname === 'localhost' ||
+        hostname === '127.0.0.1'
+      ) {
+        return cb(null, true);
+      }
+    } catch (e) {
+      // Fallback check
+      if (ALLOWED_ORIGINS.some(o => origin.startsWith(o))) return cb(null, true);
+    }
     cb(new Error('CORS blocked: ' + origin));
   },
   methods: ['POST', 'OPTIONS'],
