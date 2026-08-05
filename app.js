@@ -906,9 +906,14 @@ document.addEventListener('DOMContentLoaded', () => {
       runTransmissionSequence(txId, () => {});
 
       // Backend API URL (auto-detects local vs production)
-      const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      const isLocal = (
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.protocol === 'file:'
+      );
+      const API_BASE_URL = isLocal
         ? 'http://localhost:5000'
-        : 'https://portfolio-final-vtxa.onrender.com'; // no trailing slash
+        : 'https://portfolio-final-vtxa.onrender.com';
 
       fetch(`${API_BASE_URL}/api/contact`, {
         method: 'POST',

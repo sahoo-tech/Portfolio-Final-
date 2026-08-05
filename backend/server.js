@@ -20,33 +20,13 @@ app.set('trust proxy', 1);
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost,http://127.0.0.1')
   .split(',').map(o => o.trim());
 
+/* ── CORS (Permissive origin mirror - guarantees no CORS blockage) ── */
 app.use(cors({
-  origin: (origin, cb) => {
-    // Allow requests with no origin (Postman, curl, server-to-server)
-    if (!origin) return cb(null, true);
-    try {
-      const hostname = new URL(origin).hostname;
-      if (
-        hostname === 'localhost'        ||
-        hostname === '127.0.0.1'       ||
-        hostname.endsWith('.xyz')      ||
-        hostname.endsWith('.github.io')||
-        hostname.endsWith('.onrender.com') ||
-        ALLOWED_ORIGINS.some(o => origin.startsWith(o))
-      ) {
-        return cb(null, true);
-      }
-    } catch (_) {
-      if (ALLOWED_ORIGINS.some(o => origin.startsWith(o))) return cb(null, true);
-    }
-    cb(new Error('CORS blocked: ' + origin));
-  },
+  origin: true,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Accept'],
-  optionsSuccessStatus: 200   // Some browsers (IE11) choke on 204
+  credentials: true
 }));
-
-/* ── Handle OPTIONS preflight explicitly ─────────────────── */
 app.options('*', cors());
 
 app.use(express.json({ limit: '20kb' }));
@@ -65,6 +45,25 @@ app.get('/', (req, res) => {
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'online', timestamp: new Date().toISOString() });
+});
+
+app.get('/api/test-email', async (req, res) => {
+  try {
+    const tp = getTransporter();
+    await tp.verify();
+    res.json({
+      success: true,
+      message: 'SMTP credentials & Gmail connection verified successfully!',
+      user: process.env.SMTP_USER ? process.env.SMTP_USER.trim() : 'NOT SET'
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      userConfigured: !!process.env.SMTP_USER,
+      passConfigured: !!process.env.SMTP_PASS
+    });
+  }
 });
 
 /* ── Rate Limiting ───────────────────────────────────────── */

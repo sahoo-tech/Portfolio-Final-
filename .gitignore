@@ -1,0 +1,30 @@
+# ── Node.js ──────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Environment Variables (NEVER commit these!) ──
+.env
+.env.local
+.env.production
+.env.*.local
+backend/.env
+backend/.env.local
+backend/.env.production
+
+# ── OS Files ─────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE / Editor ─────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Build Artifacts ──────────────────────────────
+dist/
+build/
+.cache/
