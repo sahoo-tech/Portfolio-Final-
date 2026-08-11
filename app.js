@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.protocol === 'file:'
     );
     if (isLocal) return; // skip ping during local development
-    const BACKEND = 'https://portfolio-final-vtxa.onrender.com';
+    const BACKEND = 'https://portfolio-final-qy2g.onrender.com';
     fetch(`${BACKEND}/api/health`, { method: 'GET', cache: 'no-store' })
       .then(() => console.log('%c[ BACKEND ONLINE ]', 'color:#00F5FF;font-weight:bold;'))
       .catch(() => {}); // Silent — never show errors to the user
@@ -931,7 +931,7 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       const API_BASE_URL = isLocal
         ? 'http://localhost:5000'
-        : 'https://portfolio-final-vtxa.onrender.com';
+        : 'https://portfolio-final-qy2g.onrender.com';
 
       fetch(`${API_BASE_URL}/api/contact`, {
         method: 'POST',
