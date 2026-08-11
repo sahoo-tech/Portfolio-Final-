@@ -1303,93 +1303,139 @@
                                 <span class="dot dot-yellow"></span>
                                 <span class="dot dot-green"></span>
                                 <span class="card-title-bar">transmission.exe — SECURE CHANNEL</span>
-                                <span class="ct-header-status"><span class="ct-status-dot"></span>ONLINE</span>
+                                <span class="ct-header-status"><span class="ct-status-dot" style="background:#FF6B00;box-shadow:0 0 8px #FF6B00;"></span>OFFLINE</span>
                             </div>
 
                             <!-- Scanline overlay -->
                             <div class="ct-scanlines"></div>
 
-                            <!-- Form State -->
-                            <form class="contact-form ct-form" id="contactForm" novalidate>
-                                <div class="ct-form-row">
-                                    <div class="form-field ct-field">
-                                        <label class="form-label" for="contactName">
-                                            <i class="fas fa-user"></i> FULL NAME <span class="ct-required">*</span>
-                                        </label>
-                                        <input type="text" id="contactName" name="name" placeholder="Your full name" required autocomplete="name">
-                                        <div class="field-border"></div>
-                                        <div class="ct-field-error" id="errName"></div>
-                                    </div>
-                                    <div class="form-field ct-field">
-                                        <label class="form-label" for="contactEmail">
-                                            <i class="fas fa-at"></i> EMAIL ADDRESS <span class="ct-required">*</span>
-                                        </label>
-                                        <input type="email" id="contactEmail" name="email" placeholder="your@email.com" required autocomplete="email">
-                                        <div class="field-border"></div>
-                                        <div class="ct-field-error" id="errEmail"></div>
-                                    </div>
+                            <!-- Under Construction State -->
+                            <div style="
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                padding: 48px 32px;
+                                text-align: center;
+                                min-height: 420px;
+                                gap: 24px;
+                            ">
+                                <!-- Animated Icon -->
+                                <div style="position: relative; width: 80px; height: 80px; margin-bottom: 8px;">
+                                    <div style="
+                                        width: 80px; height: 80px;
+                                        border: 2px solid #FF6B00;
+                                        border-radius: 50%;
+                                        animation: spin 4s linear infinite;
+                                        position: absolute;
+                                        top: 0; left: 0;
+                                        border-top-color: transparent;
+                                    "></div>
+                                    <div style="
+                                        width: 60px; height: 60px;
+                                        border: 2px solid rgba(255,107,0,0.4);
+                                        border-radius: 50%;
+                                        animation: spin 2s linear infinite reverse;
+                                        position: absolute;
+                                        top: 10px; left: 10px;
+                                        border-bottom-color: transparent;
+                                    "></div>
+                                    <i class="fas fa-cog" style="
+                                        position: absolute;
+                                        top: 50%; left: 50%;
+                                        transform: translate(-50%, -50%);
+                                        font-size: 24px;
+                                        color: #FF6B00;
+                                        animation: spin 3s linear infinite;
+                                    "></i>
                                 </div>
 
-                                <div class="ct-form-row">
-                                    <div class="form-field ct-field">
-                                        <label class="form-label" for="contactOrg">
-                                            <i class="fas fa-building"></i> ORGANIZATION <span class="ct-optional">(optional)</span>
-                                        </label>
-                                        <input type="text" id="contactOrg" name="organization" placeholder="Company / Institute" autocomplete="organization">
-                                        <div class="field-border"></div>
-                                    </div>
-                                    <div class="form-field ct-field">
-                                        <label class="form-label" for="contactCategory">
-                                            <i class="fas fa-tag"></i> CATEGORY <span class="ct-required">*</span>
-                                        </label>
-                                        <div class="ct-select-wrap">
-                                            <select id="contactCategory" name="category" required>
-                                                <option value="" disabled selected>Select category...</option>
-                                                <option value="General Inquiry">General Inquiry</option>
-                                                <option value="Internship Opportunity">Internship Opportunity</option>
-                                                <option value="Job Opportunity">Job Opportunity</option>
-                                                <option value="Collaboration">Collaboration</option>
-                                                <option value="Freelance">Freelance</option>
-                                                <option value="Open Source">Open Source</option>
-                                                <option value="Speaking">Speaking</option>
-                                                <option value="Other">Other</option>
-                                            </select>
-                                            <i class="fas fa-chevron-down ct-select-arrow"></i>
-                                        </div>
-                                        <div class="field-border"></div>
-                                        <div class="ct-field-error" id="errCategory"></div>
-                                    </div>
+                                <!-- Badge -->
+                                <div style="
+                                    background: rgba(255,107,0,0.12);
+                                    border: 1px solid #FF6B00;
+                                    border-radius: 4px;
+                                    padding: 4px 16px;
+                                    font-size: 10px;
+                                    font-family: 'Courier New', monospace;
+                                    color: #FF6B00;
+                                    letter-spacing: 3px;
+                                    font-weight: bold;
+                                ">⚠ SYSTEM OFFLINE</div>
+
+                                <!-- Title -->
+                                <div>
+                                    <h3 style="
+                                        font-size: 20px;
+                                        color: #00F5FF;
+                                        letter-spacing: 3px;
+                                        margin: 0 0 8px 0;
+                                        font-family: 'Courier New', monospace;
+                                        text-shadow: 0 0 20px rgba(0,245,255,0.5);
+                                    ">CHANNEL UNDER CONSTRUCTION</h3>
+                                    <p style="
+                                        font-size: 12px;
+                                        color: #50D0FF;
+                                        letter-spacing: 1.5px;
+                                        margin: 0;
+                                        font-family: 'Courier New', monospace;
+                                    ">TRANSMISSION TERMINAL v3.0 — BOOT SEQUENCE PENDING</p>
                                 </div>
 
-                                <div class="form-field ct-field">
-                                    <label class="form-label" for="contactSubject">
-                                        <i class="fas fa-terminal"></i> SUBJECT <span class="ct-required">*</span>
-                                    </label>
-                                    <input type="text" id="contactSubject" name="subject" placeholder="Transmission subject" required>
-                                    <div class="field-border"></div>
-                                    <div class="ct-field-error" id="errSubject"></div>
+                                <!-- Terminal Log -->
+                                <div style="
+                                    background: #05070A;
+                                    border: 1px solid rgba(0,245,255,0.2);
+                                    border-radius: 8px;
+                                    padding: 16px 20px;
+                                    width: 100%;
+                                    text-align: left;
+                                    font-family: 'Courier New', monospace;
+                                    font-size: 11px;
+                                    line-height: 1.9;
+                                ">
+                                    <div style="color: #50D0FF;">&gt; Initializing secure channel...</div>
+                                    <div style="color: #50D0FF;">&gt; Deploying quantum encryption layer...</div>
+                                    <div style="color: #FF6B00;">&gt; ERROR: Backend uplink not established.</div>
+                                    <div style="color: #50D0FF;">&gt; Switching to direct comms protocol...</div>
+                                    <div style="color: #28CA41;">&gt; Direct channels available. <span style="color:#00F5FF; font-weight:bold;">Use sidebar to connect.</span></div>
                                 </div>
 
-                                <div class="form-field ct-field">
-                                    <label class="form-label" for="contactMessage">
-                                        <i class="fas fa-satellite-dish"></i> MESSAGE <span class="ct-required">*</span>
-                                    </label>
-                                    <textarea id="contactMessage" name="message" placeholder="Enter your transmission payload..." rows="5" required></textarea>
-                                    <div class="field-border"></div>
-                                    <div class="ct-field-error" id="errMessage"></div>
-                                    <div class="ct-char-count"><span id="msgCharCount">0</span> / 2000</div>
+                                <!-- Redirect Message -->
+                                <div style="
+                                    background: rgba(0,245,255,0.06);
+                                    border: 1px solid rgba(0,245,255,0.3);
+                                    border-radius: 8px;
+                                    padding: 16px 20px;
+                                    width: 100%;
+                                ">
+                                    <p style="
+                                        margin: 0;
+                                        font-size: 12px;
+                                        color: #50D0FF;
+                                        font-family: 'Courier New', monospace;
+                                        letter-spacing: 0.5px;
+                                        line-height: 1.8;
+                                    ">
+                                        <i class="fas fa-satellite-dish" style="color:#00F5FF; margin-right:8px;"></i>
+                                        Until the transmission terminal is online, reach me directly via the
+                                        <strong style="color:#00F5FF;">contact channels on the left panel</strong>
+                                        — email, phone, or social links are live and monitored 24/7.
+                                    </p>
                                 </div>
 
-                                <button type="submit" class="cta-btn cta-primary btn-full ct-submit-btn" id="sendMessageBtn">
-                                    <i class="fas fa-satellite-dish"></i>
-                                    <span id="submitBtnText">INITIATE TRANSMISSION</span>
-                                    <span class="btn-glow"></span>
-                                </button>
-                            </form>
-
+                                <!-- ETA -->
+                                <div style="
+                                    font-family: 'Courier New', monospace;
+                                    font-size: 10px;
+                                    color: rgba(80,208,255,0.5);
+                                    letter-spacing: 1px;
+                                ">[ ESTIMATED UPLINK RESTORATION: SOON™ ]</div>
+                            </div>
 
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
