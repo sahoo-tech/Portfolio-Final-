@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    PORTFOLIO — CYBERPUNK CONTACT TERMINAL BACKEND
-   Node.js + Express | Resend API | Nodemailer Fallback
+   Node.js + Express | Nodemailer (Gmail SMTP)
    Rate Limiting | Validation
    ═══════════════════════════════════════════════════════════ */
 
@@ -9,12 +9,6 @@ const express    = require('express');
 const cors       = require('cors');
 const rateLimit  = require('express-rate-limit');
 const nodemailer = require('nodemailer');
-let Resend;
-try {
-  Resend = require('resend').Resend;
-} catch (_) {
-  // Resend module optional
-}
 const { body, validationResult } = require('express-validator');
 
 const app  = express();
@@ -55,39 +49,23 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('/api/test-email', async (req, res) => {
-  const mode = process.env.RESEND_API_KEY ? 'resend' : 'smtp';
-  if (mode === 'resend') {
-    try {
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      // Just validate the key exists & SDK initialises — no actual send
-      res.json({
-        success: true,
-        mode: 'resend',
-        message: 'Resend API key is configured.',
-        from: process.env.RESEND_FROM || 'NOT SET'
-      });
-    } catch (err) {
-      res.status(500).json({ success: false, mode: 'resend', error: err.message });
-    }
-  } else {
-    try {
-      const tp = getSmtpTransporter();
-      await tp.verify();
-      res.json({
-        success: true,
-        mode: 'smtp',
-        message: 'SMTP credentials & Gmail connection verified successfully!',
-        user: process.env.SMTP_USER ? process.env.SMTP_USER.trim() : 'NOT SET'
-      });
-    } catch (err) {
-      res.status(500).json({
-        success: false,
-        mode: 'smtp',
-        error: err.message,
-        userConfigured: !!process.env.SMTP_USER,
-        passConfigured: !!process.env.SMTP_PASS
-      });
-    }
+  try {
+    const tp = getSmtpTransporter();
+    await tp.verify();
+    res.json({
+      success: true,
+      mode: 'smtp',
+      message: 'SMTP credentials & Gmail connection verified successfully!',
+      user: process.env.SMTP_USER ? process.env.SMTP_USER.trim() : 'NOT SET'
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      mode: 'smtp',
+      error: err.message,
+      userConfigured: !!process.env.SMTP_USER,
+      passConfigured: !!process.env.SMTP_PASS
+    });
   }
 });
 
@@ -100,37 +78,26 @@ const contactLimiter = rateLimit({
   message: { error: 'Too many transmission attempts. Please wait 15 minutes.' }
 });
 
-/* ── Email Dispatch (Resend API or SMTP fallback) ────────── */
+/* ── Email Dispatch (Nodemailer Gmail SMTP) ──────────────── */
 
-// ── Resend (HTTP API — works on Render, no SMTP ports needed) ──
-async function sendViaResend(to, subject, html, replyTo) {
-  if (!Resend) throw new Error('Resend package is not installed on this server');
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  const from   = process.env.RESEND_FROM || 'Sahoo-Tech Command Center <onboarding@resend.dev>';
-  const opts   = { from, to, subject, html };
-  if (replyTo) opts.replyTo = replyTo;
-  const { data, error } = await resend.emails.send(opts);
-  if (error) throw new Error(error.message || JSON.stringify(error));
-  return data;
-}
-
-// ── Nodemailer SMTP (local dev fallback when RESEND_API_KEY not set) ──
 let _smtpTransporter;
 function getSmtpTransporter() {
   const user = (process.env.SMTP_USER || '').trim();
   const pass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
   if (!user || !pass) {
-    throw new Error('SMTP credentials missing (SMTP_USER or SMTP_PASS not set)');
+    throw new Error('SMTP credentials missing (SMTP_USER or SMTP_PASS not set in environment)');
   }
   if (_smtpTransporter) return _smtpTransporter;
   _smtpTransporter = nodemailer.createTransport({
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 100,
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    requireTLS: true,
+    port: 465,
+    secure: true, // Use SSL on port 465 (highly reliable on cloud hosting like Render)
     auth: { user, pass },
-    connectionTimeout: 5000, // 5s connection timeout (prevents serverless hangs)
-    socketTimeout: 10000,     // 10s socket timeout
+    connectionTimeout: 15000,
+    socketTimeout: 20000,
     tls: { rejectUnauthorized: false }
   });
   return _smtpTransporter;
@@ -147,31 +114,17 @@ async function sendViaSMTP(to, subject, html, from, replyTo) {
   return tp.sendMail(opts);
 }
 
-// ── Unified sendEmail — SMTP is PRIMARY, Resend as fallback ──
+// ── Primary sendEmail function ──
 async function sendEmail({ to, subject, html, replyTo }) {
   const user = (process.env.SMTP_USER || '').trim();
   const pass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
 
   if (user && pass) {
-    try {
-      console.log(`[EMAIL] Attempting Primary SMTP dispatch → ${to}`);
-      return await sendViaSMTP(to, subject, html, `"Sahoo-Tech Command Center" <${user}>`, replyTo);
-    } catch (smtpErr) {
-      console.warn(`[EMAIL] Primary SMTP dispatch failed: ${smtpErr.message}`);
-      if (process.env.RESEND_API_KEY) {
-        console.log(`[EMAIL] Falling back to Resend API → ${to}`);
-        return await sendViaResend(to, subject, html, replyTo);
-      }
-      throw smtpErr;
-    }
+    console.log(`[EMAIL] Attempting SMTP dispatch → ${to}`);
+    return await sendViaSMTP(to, subject, html, `"Sahoo-Tech Command Center" <${user}>`, replyTo);
   }
 
-  if (process.env.RESEND_API_KEY) {
-    console.log(`[EMAIL] Using Resend API (SMTP credentials missing) → ${to}`);
-    return await sendViaResend(to, subject, html, replyTo);
-  }
-
-  throw new Error('No email dispatch mechanism configured (SMTP_USER/SMTP_PASS or RESEND_API_KEY missing)');
+  throw new Error('No email dispatch mechanism configured (SMTP_USER or SMTP_PASS missing in environment)');
 }
 
 /* ── HTML Email Templates ────────────────────────────────── */
