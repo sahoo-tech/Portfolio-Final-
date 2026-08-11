@@ -49,6 +49,15 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('/api/test-email', async (req, res) => {
+  const resendKey = (process.env.RESEND_API_KEY || '').trim();
+  if (resendKey) {
+    return res.json({
+      success: true,
+      mode: 'resend',
+      message: 'Resend HTTP API key configured (Bypasses SMTP port blocking).',
+      resendKeySet: true
+    });
+  }
   try {
     const tp = createSmtpTransporter();
     await tp.verify();
@@ -78,9 +87,32 @@ const contactLimiter = rateLimit({
   message: { error: 'Too many transmission attempts. Please wait 15 minutes.' }
 });
 
-/* ── Email Dispatch (Nodemailer Gmail SMTP) ──────────────── */
+/* ── Email Dispatch (Resend HTTP API or Nodemailer Gmail SMTP) ── */
 
-// ── Create a fresh SMTP transporter per email (prevents stale socket lockouts) ──
+async function sendViaResend(to, subject, html, replyTo) {
+  const apiKey = (process.env.RESEND_API_KEY || '').trim();
+  if (!apiKey) throw new Error('RESEND_API_KEY is missing');
+  const from = process.env.RESEND_FROM || 'Sahoo-Tech Command Center <onboarding@resend.dev>';
+  const body = { from, to, subject, html };
+  if (replyTo) body.reply_to = replyTo;
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || JSON.stringify(data));
+  }
+  return data;
+}
+
+// ── Create a fresh SMTP transporter per email ──
 function createSmtpTransporter() {
   const user = (process.env.SMTP_USER || '').trim();
   const pass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
@@ -100,7 +132,6 @@ function createSmtpTransporter() {
 }
 
 async function sendViaSMTP(to, subject, html, from, replyTo) {
-  // A fresh transporter is created per send — eliminates dead-socket failures
   const tp  = createSmtpTransporter();
   const smtpUser = (process.env.SMTP_USER || '').trim();
   const msgId = `<${Date.now()}.${Math.random().toString(36).slice(2)}@sahoo-tech.com>`;
@@ -109,12 +140,11 @@ async function sendViaSMTP(to, subject, html, from, replyTo) {
     to,
     subject,
     html,
-    /* ── Anti-spam headers ─────────────────────────────── */
     messageId:  msgId,
     headers: {
       'X-Mailer':        'Sahoo-Tech Contact Terminal v2.0',
-      'X-Priority':      '3',            // Normal priority (1=high → looks spammy)
-      'X-MS-Exchange-Organization-SCL': '-1', // Bypass MS spam filter
+      'X-Priority':      '3',
+      'X-MS-Exchange-Organization-SCL': '-1',
       'Precedence':      'bulk',
       'Auto-Submitted':  'auto-generated'
     }
@@ -124,21 +154,36 @@ async function sendViaSMTP(to, subject, html, from, replyTo) {
     const result = await tp.sendMail(opts);
     return result;
   } finally {
-    tp.close(); // Always close connection cleanly to avoid Gmail lockouts
+    tp.close();
   }
 }
 
 // ── Primary sendEmail function ──
 async function sendEmail({ to, subject, html, replyTo }) {
+  const resendKey = (process.env.RESEND_API_KEY || '').trim();
   const user = (process.env.SMTP_USER || '').trim();
   const pass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
+
+  if (resendKey) {
+    try {
+      console.log(`[EMAIL] Attempting Resend HTTP API dispatch → ${to}`);
+      return await sendViaResend(to, subject, html, replyTo);
+    } catch (resendErr) {
+      console.warn(`[EMAIL] Resend HTTP API failed: ${resendErr.message}`);
+      if (user && pass) {
+        console.log(`[EMAIL] Falling back to SMTP → ${to}`);
+        return await sendViaSMTP(to, subject, html, `"Sahoo-Tech Command Center" <${user}>`, replyTo);
+      }
+      throw resendErr;
+    }
+  }
 
   if (user && pass) {
     console.log(`[EMAIL] Attempting SMTP dispatch → ${to}`);
     return await sendViaSMTP(to, subject, html, `"Sahoo-Tech Command Center" <${user}>`, replyTo);
   }
 
-  throw new Error('No email dispatch mechanism configured (SMTP_USER or SMTP_PASS missing in environment)');
+  throw new Error('No email dispatch mechanism configured (RESEND_API_KEY or SMTP_USER/SMTP_PASS missing in environment)');
 }
 
 /* ── HTML Email Templates ────────────────────────────────── */
