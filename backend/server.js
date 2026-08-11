@@ -50,7 +50,7 @@ app.get('/api/health', (req, res) => {
 
 app.get('/api/test-email', async (req, res) => {
   try {
-    const tp = getSmtpTransporter();
+    const tp = createSmtpTransporter();
     await tp.verify();
     res.json({
       success: true,
