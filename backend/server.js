@@ -120,14 +120,8 @@ function createSmtpTransporter() {
     throw new Error('SMTP credentials missing (SMTP_USER or SMTP_PASS not set in environment)');
   }
   return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    requireTLS: true,
-    auth: { user, pass },
-    connectionTimeout: 15000,
-    socketTimeout: 20000,
-    tls: { rejectUnauthorized: false }
+    service: 'gmail',
+    auth: { user, pass }
   });
 }
 
