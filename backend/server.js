@@ -89,8 +89,9 @@ function createSmtpTransporter() {
   }
   return nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // SSL — most reliable on Render and cloud hosts
+    port: 587,
+    secure: false,
+    requireTLS: true,
     auth: { user, pass },
     connectionTimeout: 15000,
     socketTimeout: 20000,
