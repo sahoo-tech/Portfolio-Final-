@@ -80,38 +80,51 @@ const contactLimiter = rateLimit({
 
 /* ── Email Dispatch (Nodemailer Gmail SMTP) ──────────────── */
 
-let _smtpTransporter;
-function getSmtpTransporter() {
+// ── Create a fresh SMTP transporter per email (prevents stale socket lockouts) ──
+function createSmtpTransporter() {
   const user = (process.env.SMTP_USER || '').trim();
   const pass = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
   if (!user || !pass) {
     throw new Error('SMTP credentials missing (SMTP_USER or SMTP_PASS not set in environment)');
   }
-  if (_smtpTransporter) return _smtpTransporter;
-  _smtpTransporter = nodemailer.createTransport({
-    pool: true,
-    maxConnections: 5,
-    maxMessages: 100,
+  return nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
-    secure: true, // Use SSL on port 465 (highly reliable on cloud hosting like Render)
+    secure: true, // SSL — most reliable on Render and cloud hosts
     auth: { user, pass },
     connectionTimeout: 15000,
     socketTimeout: 20000,
     tls: { rejectUnauthorized: false }
   });
-  return _smtpTransporter;
 }
 
 async function sendViaSMTP(to, subject, html, from, replyTo) {
-  const tp = getSmtpTransporter();
+  // A fresh transporter is created per send — eliminates dead-socket failures
+  const tp  = createSmtpTransporter();
   const smtpUser = (process.env.SMTP_USER || '').trim();
+  const msgId = `<${Date.now()}.${Math.random().toString(36).slice(2)}@sahoo-tech.com>`;
   const opts = {
-    from:    from || `"Sahoo-Tech Command Center" <${smtpUser}>`,
-    to, subject, html
+    from:       from || `"Sahoo-Tech Command Center" <${smtpUser}>`,
+    to,
+    subject,
+    html,
+    /* ── Anti-spam headers ─────────────────────────────── */
+    messageId:  msgId,
+    headers: {
+      'X-Mailer':        'Sahoo-Tech Contact Terminal v2.0',
+      'X-Priority':      '3',            // Normal priority (1=high → looks spammy)
+      'X-MS-Exchange-Organization-SCL': '-1', // Bypass MS spam filter
+      'Precedence':      'bulk',
+      'Auto-Submitted':  'auto-generated'
+    }
   };
   if (replyTo) opts.replyTo = replyTo;
-  return tp.sendMail(opts);
+  try {
+    const result = await tp.sendMail(opts);
+    return result;
+  } finally {
+    tp.close(); // Always close connection cleanly to avoid Gmail lockouts
+  }
 }
 
 // ── Primary sendEmail function ──

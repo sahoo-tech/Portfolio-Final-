@@ -4,6 +4,24 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ── Silent Backend Wake-Up Ping ──────────────────────────
+     Fires instantly on page load to warm the Render free-tier
+     instance before the user reaches the contact form.
+     No interaction needed — fully silent, no UI change.
+  ═════════════════════════════════════════════════════════ */
+  (function pingBackend() {
+    const isLocal = (
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.protocol === 'file:'
+    );
+    if (isLocal) return; // skip ping during local development
+    const BACKEND = 'https://portfolio-final-vtxa.onrender.com';
+    fetch(`${BACKEND}/api/health`, { method: 'GET', cache: 'no-store' })
+      .then(() => console.log('%c[ BACKEND ONLINE ]', 'color:#00F5FF;font-weight:bold;'))
+      .catch(() => {}); // Silent — never show errors to the user
+  })();
+
   const C = {
     cyan:    '#00F5FF',
     blue:    '#3A8DFF',
