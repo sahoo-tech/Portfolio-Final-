@@ -1346,70 +1346,193 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Contribution Galaxy Canvas ────────────────────────
   function initGalaxy() {
-    const canvas = document.getElementById('ghGalaxyCanvas');
+    const canvas  = document.getElementById('ghGalaxyCanvas');
     const tooltip = document.getElementById('ghGalaxyTooltip');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    const container = document.getElementById('ghGalaxy');
 
-    canvas.width  = canvas.offsetWidth  || 800;
-    canvas.height = canvas.offsetHeight || 180;
+    // Make canvas fill its container properly
+    function resize() {
+      canvas.width  = container.offsetWidth  || 900;
+      canvas.height = 220;
+    }
+    resize();
+    window.addEventListener('resize', () => { resize(); buildStars(); });
 
-    const weeks = 52, days = 7;
-    const cellW = Math.floor(canvas.width / (weeks + 1));
-    const cellH = Math.floor((canvas.height - 30) / days);
-    const pad   = 10;
-    const stars = [];
-
+    const weeks = 53, days = 7;
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     const now = new Date();
 
-    for (let w = 0; w < weeks; w++) {
-      for (let d = 0; d < days; d++) {
-        const contrib = Math.random() < 0.35 ? 0 :
-          Math.random() < 0.5 ? Math.floor(Math.random() * 3) + 1 :
-          Math.floor(Math.random() * 12) + 1;
-        const date = new Date(now);
-        date.setDate(date.getDate() - ((weeks - w) * 7 + (days - d)));
-        stars.push({
-          x: pad + w * cellW + cellW / 2,
-          y: pad + d * cellH + cellH / 2,
-          contrib,
-          date: date.toDateString(),
-          opacity: contrib === 0 ? 0.06 : 0.1 + (contrib / 15) * 0.9,
-          phase: Math.random() * Math.PI * 2,
-          speed: 0.8 + Math.random() * 1.5
-        });
+    // Color scale: empty → dim blue, low → cyan, medium → green, high → magenta/violet
+    function getColor(contrib) {
+      if (contrib === 0) return { r:0, g:245, b:255, a: 0.05 };
+      if (contrib <= 2)  return { r:0, g:245, b:255, a: 0.25 };
+      if (contrib <= 5)  return { r:0, g:200, b:255, a: 0.55 };
+      if (contrib <= 10) return { r:40, g:255, b:150, a: 0.75 };
+      return { r:200, g:80, b:255, a: 1.0 };
+    }
+
+    let stars = [];
+    let comets = [];
+
+    function buildStars() {
+      stars = [];
+      const padL = 6, padT = 24, padB = 20;
+      const usableW = canvas.width  - padL - 4;
+      const usableH = canvas.height - padT - padB;
+      const cellW = usableW / weeks;
+      const cellH = usableH / days;
+
+      for (let w = 0; w < weeks; w++) {
+        for (let d = 0; d < days; d++) {
+          const contrib = Math.random() < 0.32 ? 0
+            : Math.random() < 0.45 ? Math.floor(Math.random() * 3) + 1
+            : Math.random() < 0.75 ? Math.floor(Math.random() * 7) + 3
+            : Math.floor(Math.random() * 10) + 8;
+
+          const date = new Date(now);
+          date.setDate(date.getDate() - ((weeks - 1 - w) * 7 + (days - 1 - d)));
+
+          const col = getColor(contrib);
+          const x = padL + w * cellW + cellW / 2;
+          const y = padT + d * cellH + cellH / 2;
+          const r = contrib === 0 ? 2.8
+            : 3.2 + (contrib / 18) * 3.5;
+
+          stars.push({
+            x, y, r, contrib, col,
+            date: date.toDateString(),
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.4 + Math.random() * 1.2,
+            w, d
+          });
+        }
+      }
+    }
+    buildStars();
+
+    // Spawn periodic shooting comets
+    function spawnComet() {
+      comets.push({
+        x: Math.random() * canvas.width * 0.3,
+        y: Math.random() * canvas.height * 0.5,
+        vx: 4 + Math.random() * 5,
+        vy: 0.5 + Math.random() * 1.5,
+        len: 60 + Math.random() * 80,
+        alpha: 1,
+        life: 1
+      });
+    }
+    setInterval(spawnComet, 2200);
+
+    function drawLabels() {
+      ctx.font = '9px "Share Tech Mono", monospace';
+      ctx.fillStyle = 'rgba(0,245,255,0.35)';
+      const padL = 6;
+      const usableW = canvas.width - padL - 4;
+      const cellW = usableW / weeks;
+      for (let m = 0; m < 12; m++) {
+        const wx = padL + Math.round(m * (weeks / 12)) * cellW;
+        ctx.fillText(months[m], wx, 14);
+      }
+      // Day labels (Mon Wed Fri)
+      ctx.fillStyle = 'rgba(0,245,255,0.25)';
+      const padT = 24, padB = 20;
+      const usableH = canvas.height - padT - padB;
+      const cellH = usableH / days;
+      ['', 'Mon', '', 'Wed', '', 'Fri', ''].forEach((lbl, d) => {
+        if (!lbl) return;
+        ctx.fillText(lbl, 0, padT + d * cellH + cellH / 2 + 3);
+      });
+    }
+
+    // Draw faint constellation lines between nearby active stars
+    function drawConstellationLines(ts) {
+      const active = stars.filter(s => s.contrib > 4);
+      ctx.lineWidth = 0.4;
+      for (let i = 0; i < active.length; i++) {
+        const a = active[i];
+        for (let j = i + 1; j < active.length; j++) {
+          const b = active[j];
+          const dx = b.x - a.x, dy = b.y - a.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 55) {
+            const alpha = (1 - dist / 55) * 0.18 * (0.7 + 0.3 * Math.sin(ts * 0.001 + a.phase));
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(0,245,255,${alpha})`;
+            ctx.stroke();
+          }
+        }
       }
     }
 
-    // Month labels
-    function drawLabels() {
-      ctx.font = '9px Share Tech Mono, monospace';
-      ctx.fillStyle = 'rgba(255,255,255,0.3)';
-      for (let m = 0; m < 12; m++) {
-        const wx = pad + Math.round(m * (weeks / 12)) * cellW;
-        ctx.fillText(months[m], wx, canvas.height - 6);
-      }
+    function drawComets() {
+      comets = comets.filter(c => c.life > 0);
+      comets.forEach(c => {
+        c.x  += c.vx;
+        c.y  += c.vy;
+        c.life -= 0.012;
+        const grad = ctx.createLinearGradient(c.x - c.len, c.y, c.x, c.y);
+        grad.addColorStop(0, `rgba(0,245,255,0)`);
+        grad.addColorStop(1, `rgba(0,245,255,${c.life * 0.7})`);
+        ctx.beginPath();
+        ctx.moveTo(c.x - c.len, c.y);
+        ctx.lineTo(c.x, c.y);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        // Head glow
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${c.life * 0.9})`;
+        ctx.fill();
+      });
     }
 
     let animFrame;
     function drawGalaxy(ts = 0) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawLabels();
+      drawConstellationLines(ts);
+
       stars.forEach(s => {
+        const { r: cr, g: cg, b: cb, a: ca } = s.col;
         const pulse = s.contrib > 0
-          ? s.opacity * (0.85 + 0.15 * Math.sin(ts * 0.001 * s.speed + s.phase))
-          : s.opacity;
-        const r = s.contrib > 0 ? 3.5 + (s.contrib / 15) * 2 : 3;
+          ? ca * (0.8 + 0.2 * Math.sin(ts * 0.001 * s.speed + s.phase))
+          : ca;
+
+        // Glow for high-activity stars
+        if (s.contrib > 5) {
+          const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 3.5);
+          glow.addColorStop(0, `rgba(${cr},${cg},${cb},${pulse * 0.45})`);
+          glow.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r * 3.5, 0, Math.PI * 2);
+          ctx.fillStyle = glow;
+          ctx.fill();
+        }
+
+        // Core dot
         ctx.beginPath();
-        ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 245, 255, ${pulse})`;
-        if (s.contrib > 6) {
-          ctx.shadowBlur = 8; ctx.shadowColor = '#00F5FF';
-        } else { ctx.shadowBlur = 0; }
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${cr},${cg},${cb},${pulse})`;
+        if (s.contrib > 8) {
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = `rgb(${cr},${cg},${cb})`;
+        } else if (s.contrib > 4) {
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = `rgb(${cr},${cg},${cb})`;
+        } else {
+          ctx.shadowBlur = 0;
+        }
         ctx.fill();
         ctx.shadowBlur = 0;
       });
+
+      drawComets();
       animFrame = requestAnimationFrame(drawGalaxy);
     }
     drawGalaxy();
@@ -1417,23 +1540,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Tooltip on hover
     canvas.addEventListener('mousemove', e => {
       const rect = canvas.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
-      const my = e.clientY - rect.top;
+      const scaleX = canvas.width  / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const mx = (e.clientX - rect.left) * scaleX;
+      const my = (e.clientY - rect.top)  * scaleY;
       let hit = null;
       for (const s of stars) {
-        if (Math.abs(mx - s.x) < 6 && Math.abs(my - s.y) < 6) { hit = s; break; }
+        const dx = mx - s.x, dy = my - s.y;
+        if (Math.sqrt(dx * dx + dy * dy) < Math.max(s.r + 4, 7)) { hit = s; break; }
       }
       if (hit) {
         tooltip.style.opacity = '1';
-        tooltip.style.left    = (e.clientX - rect.left + 12) + 'px';
-        tooltip.style.top     = (e.clientY - rect.top  - 30) + 'px';
-        tooltip.textContent   = `${hit.date} — ${hit.contrib} contribution${hit.contrib !== 1 ? 's' : ''}`;
+        tooltip.style.left = (e.clientX - rect.left + 14) + 'px';
+        tooltip.style.top  = (e.clientY - rect.top  - 36) + 'px';
+        tooltip.textContent = `${hit.date} — ${hit.contrib} contribution${hit.contrib !== 1 ? 's' : ''}`;
       } else {
         tooltip.style.opacity = '0';
       }
     });
     canvas.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
   }
+
 
   // ── Project Dossier Modal ─────────────────────────────
   const dossierOverlay  = document.getElementById('ghDossierOverlay');

@@ -4437,16 +4437,18 @@ a.contact-item-value:hover { color: var(--cyan); }
 }
 .gh-galaxy-container {
   position: relative;
-  border: 1px solid rgba(0,245,255,0.12);
+  border: 1px solid rgba(0,245,255,0.15);
   border-radius: 20px;
-  padding: 1rem;
+  padding: 1.2rem 1rem 0.8rem;
   overflow: hidden;
-  min-height: 200px;
+  min-height: 240px;
+  background: rgba(0,0,0,0.3);
 }
 #ghGalaxyCanvas {
   width: 100%;
-  height: 180px;
+  height: 220px;
   display: block;
+  border-radius: 8px;
 }
 .gh-galaxy-tooltip {
   position: absolute;
