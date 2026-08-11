@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.hostname === '127.0.0.1' ||
       window.location.protocol === 'file:'
     );
-    if (isLocal) return; // skip ping during local development
-    const BACKEND = 'https://portfolio-final-qy2g.onrender.com';
+    // On Vercel, frontend & backend share the same domain — relative URL works
+    const BACKEND = isLocal ? 'http://localhost:5000' : '';
     fetch(`${BACKEND}/api/health`, { method: 'GET', cache: 'no-store' })
       .then(() => console.log('%c[ BACKEND ONLINE ]', 'color:#00F5FF;font-weight:bold;'))
       .catch(() => {}); // Silent — never show errors to the user
@@ -929,9 +929,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.hostname === '127.0.0.1' ||
         window.location.protocol === 'file:'
       );
-      const API_BASE_URL = isLocal
-        ? 'http://localhost:5000'
-        : 'https://portfolio-final-qy2g.onrender.com';
+      // On Vercel, frontend & backend share the same domain — relative URL works
+      const API_BASE_URL = isLocal ? 'http://localhost:5000' : '';
 
       fetch(`${API_BASE_URL}/api/contact`, {
         method: 'POST',
