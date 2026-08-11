@@ -59,7 +59,7 @@ app.get('/api/test-email', async (req, res) => {
       user: process.env.SMTP_USER ? process.env.SMTP_USER.trim() : 'NOT SET'
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(200).json({
       success: false,
       mode: 'smtp',
       error: err.message,
